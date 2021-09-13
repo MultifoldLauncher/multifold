@@ -1,6 +1,28 @@
 {
   "version": 2,
   "projects": {
+    "auth-microsoft": {
+      "root": "packages/auth-microsoft",
+      "sourceRoot": "packages/auth-microsoft/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["packages/auth-microsoft/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/packages/auth-microsoft"],
+          "options": {
+            "jestConfig": "packages/auth-microsoft/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "core": {
       "root": "packages/core",
       "sourceRoot": "packages/core/src",
@@ -8,20 +30,14 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "packages/core/**/*.ts"
-            ]
+            "lintFilePatterns": ["packages/core/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/packages/core"
-          ],
+          "outputs": ["coverage/packages/core"],
           "options": {
             "jestConfig": "packages/core/jest.config.js",
             "passWithNoTests": true
