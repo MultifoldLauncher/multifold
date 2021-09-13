@@ -8,16 +8,16 @@ Try to stick to one feature/fix/etc. per commit. If you need to use the word "an
 probably be split into multiple commits.
 
 - Subject line should be formatted as `<type>: <short summary>`. Type must be one of the following:
-    - build: changes that affect the build system.
-    - docs: documentation changes.
-    - feat: feature addition.
-    - fix: bug fix.
-    - perf: performance improvements.
-    - refactor: refactoring sections of the codebase.
-    - revert: revert a previous commit.
-    - style: changes to the code style.
-    - test: testing-related.
-    - wip: work-in-progress.
+  - build: changes that affect the build system.
+  - docs: documentation changes.
+  - feat: feature addition.
+  - fix: bug fix.
+  - perf: performance improvements.
+  - refactor: refactoring sections of the codebase.
+  - revert: revert a previous commit.
+  - style: changes to the code style.
+  - test: testing-related.
+  - wip: work-in-progress.
 - Separate the subject line from the body with a new line (`\n`).
 - Do not end the subject line with a period.
 - Do not capitalize the first letter of the subject line.
@@ -44,4 +44,5 @@ TODO
 
 ## Misc
 
-This guide was inspired by [Terra's](https://github.com/PolyhedralDev/Terra/blob/master/CONTRIBUTING.md) contribution guideline.
+This guide was inspired by [Terra's](https://github.com/PolyhedralDev/Terra/blob/master/CONTRIBUTING.md) contribution
+guideline.
