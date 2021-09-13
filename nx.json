@@ -17,5 +17,9 @@
       }
     }
   },
-  "projects": {}
+  "projects": {
+    "core": {
+      "tags": []
+    }
+  }
 }
