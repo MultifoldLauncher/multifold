@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@multifold/auth-microsoft": ["packages/auth-microsoft/src/index.ts"],
+      "@multifold/auth-mojang": ["packages/auth-mojang/src/index.ts"],
       "@multifold/core": ["packages/core/src/index.ts"]
     }
   },

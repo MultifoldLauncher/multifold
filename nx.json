@@ -16,6 +16,9 @@
     "auth-microsoft": {
       "tags": []
     },
+    "auth-mojang": {
+      "tags": []
+    },
     "core": {
       "tags": []
     }

@@ -23,6 +23,28 @@
         }
       }
     },
+    "auth-mojang": {
+      "root": "packages/auth-mojang",
+      "sourceRoot": "packages/auth-mojang/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["packages/auth-mojang/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/packages/auth-mojang"],
+          "options": {
+            "jestConfig": "packages/auth-mojang/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "core": {
       "root": "packages/core",
       "sourceRoot": "packages/core/src",
