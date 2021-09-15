@@ -8,14 +8,20 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["packages/auth-microsoft/**/*.ts"]
+            "lintFilePatterns": [
+              "packages/auth-microsoft/**/*.ts"
+            ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/packages/auth-microsoft"],
+          "outputs": [
+            "coverage/packages/auth-microsoft"
+          ],
           "options": {
             "jestConfig": "packages/auth-microsoft/jest.config.js",
             "passWithNoTests": true
@@ -30,14 +36,20 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["packages/auth-mojang/**/*.ts"]
+            "lintFilePatterns": [
+              "packages/auth-mojang/**/*.ts"
+            ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/packages/auth-mojang"],
+          "outputs": [
+            "coverage/packages/auth-mojang"
+          ],
           "options": {
             "jestConfig": "packages/auth-mojang/jest.config.js",
             "passWithNoTests": true
@@ -52,14 +64,20 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["packages/core/**/*.ts"]
+            "lintFilePatterns": [
+              "packages/core/**/*.ts"
+            ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/packages/core"],
+          "outputs": [
+            "coverage/packages/core"
+          ],
           "options": {
             "jestConfig": "packages/core/jest.config.js",
             "passWithNoTests": true

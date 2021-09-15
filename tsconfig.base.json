@@ -10,15 +10,27 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@multifold/auth-microsoft": ["packages/auth-microsoft/src/index.ts"],
-      "@multifold/auth-mojang": ["packages/auth-mojang/src/index.ts"],
-      "@multifold/core": ["packages/core/src/index.ts"]
+      "@multifold/auth-microsoft": [
+        "packages/auth-microsoft/src/index.ts"
+      ],
+      "@multifold/auth-mojang": [
+        "packages/auth-mojang/src/index.ts"
+      ],
+      "@multifold/core": [
+        "packages/core/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

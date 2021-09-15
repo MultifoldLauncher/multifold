@@ -29,5 +29,22 @@
       ],
       "rules": {}
     }
-  ]
+  ],
+  "rules": {
+    "sort-imports": [
+      "error"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "quotes": [
+      "error",
+      "double"
+    ],
+    "jsx-quotes": [
+      "error",
+      "prefer-double"
+    ]
+  }
 }
