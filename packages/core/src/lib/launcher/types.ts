@@ -16,5 +16,14 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from "./lib/launcher";
-export * from "./lib/resource";
+import { ResourceManager } from "../resource";
+
+/**
+ * This represents a MultiFold installation.
+ */
+export interface Installation {
+  readonly path: string;
+
+  readonly resourceManager: ResourceManager;
+}
+

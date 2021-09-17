@@ -16,5 +16,5 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from "./lib/launcher";
-export * from "./lib/resource";
+export * from "./environment";
+export * from "./types";
