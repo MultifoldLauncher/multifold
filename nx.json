@@ -1,8 +1,22 @@
 {
-  "extends": "@nrwl/workspace/presets/npm.json",
   "npmScope": "multifold",
   "affected": {
     "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
   },
   "tasksRunnerOptions": {
     "default": {
