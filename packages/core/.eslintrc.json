@@ -2,6 +2,9 @@
   "extends": [
     "../../.eslintrc.json"
   ],
+  "plugins": [
+    "import"
+  ],
   "ignorePatterns": [
     "!**/*"
   ],
@@ -31,9 +34,6 @@
     }
   ],
   "rules": {
-    "sort-imports": [
-      "error"
-    ],
     "semi": [
       "error",
       "always"
