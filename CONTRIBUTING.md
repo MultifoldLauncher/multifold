@@ -7,7 +7,7 @@
 Try to stick to one feature/fix/etc. per commit. If you need to use the word "and" in the subject line, then it should
 probably be split into multiple commits.
 
-- Subject line should be formatted as `<type>: <short summary>`. Type must be one of the following:
+- Subject line should be formatted as `<type>(area): <short summary>`. Area can be omitted if it applies to all areas, e.g. project build update. Type must be one of the following:
   - build: changes that affect the build system.
   - docs: documentation changes.
   - feat: feature addition.
@@ -25,7 +25,7 @@ probably be split into multiple commits.
 
 > Here is a template you can follow:
 > ```
-> feat: a new feature
+> feat(core): a new feature
 > 
 > More detailed explanatory text, if necessary. Wrap it to about 72
 > characters or so. In some contexts, the first line is treated as
