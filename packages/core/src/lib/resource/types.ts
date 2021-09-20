@@ -196,5 +196,5 @@ export interface ResourceManager {
    *
    * @returns string directory for the specified resource type.
    */
-  getResourceFolder(type: ArtifactType | ResourceType | string): string
+  getResourceFolder(type: ArtifactType | ResourceType | string): string;
 }

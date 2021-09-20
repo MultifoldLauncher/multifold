@@ -40,6 +40,12 @@
     },
     "core": {
       "tags": []
+    },
+    "launcher-frontend": {
+      "tags": []
+    },
+    "launcher-app": {
+      "tags": []
     }
   }
 }
