@@ -13,5 +13,15 @@ export const theme = createTheme({
     error: {
       main: red.A400
     }
+  },
+  components: {
+    MuiLink: {
+      defaultProps: {
+        underline: "hover"
+      }
+    }
+  },
+  typography: {
+    fontFamily: "Poppins, Roboto, sans-serif"
   }
 });
