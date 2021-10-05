@@ -24,6 +24,9 @@
       "@multifold/auth-mojang": [
         "packages/auth-mojang/src/index.ts"
       ],
+      "@multifold/component-minecraft": [
+        "packages/component-minecraft/src/index.ts"
+      ],
       "@multifold/core": [
         "packages/core/src/index.ts"
       ],

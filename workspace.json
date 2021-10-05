@@ -57,6 +57,34 @@
         }
       }
     },
+    "component-minecraft": {
+      "root": "packages/component-minecraft",
+      "sourceRoot": "packages/component-minecraft/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "packages/component-minecraft/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/packages/component-minecraft"
+          ],
+          "options": {
+            "jestConfig": "packages/component-minecraft/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "core": {
       "root": "packages/core",
       "sourceRoot": "packages/core/src",

@@ -41,6 +41,9 @@
     "auth-mojang": {
       "tags": []
     },
+    "component-minecraft": {
+      "tags": []
+    },
     "core": {
       "tags": []
     },
