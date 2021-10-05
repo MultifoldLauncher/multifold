@@ -16,5 +16,8 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+export * from "./lib/account";
+export * from "./lib/instance";
 export * from "./lib/launcher";
+export * from "./lib/manifest";
 export * from "./lib/resource";

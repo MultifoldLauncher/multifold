@@ -16,31 +16,45 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export class LaunchEnvironment {
-  /**
-   * The command to launch with. This is usually the fully-qualified path for
-   * java executable. E.g. /usr/bin/java.
-   */
-  command: string;
+export interface Account {
+  readonly type: string;
 
   /**
-   * The main class to launch. This is usually Minecraft's main class name or
-   * a wrapper class in a mod loader. E.g. net.minecraft.client.Main.
+   * The UUID associated with the account.
    */
-  entryPoint: string;
+  readonly id: string;
 
   /**
-   * Additional classpath entries to be added to the JVM argument.
+   * The username associated with the account.
    */
-  classpath: string[] = [];
+  readonly username: string;
 
   /**
-   * Launch arguments to pass to Minecraft.
+   * The active access token associated with the account.
    */
-  launchArguments: string[] = [];
+  readonly accessToken: string;
 
   /**
-   * Additional JVM arguments to pass to the JVM.
+   * Verifies the current account credentials.
+   * @return true if the account is valid.
    */
-  jvmArguments: string[] = [];
+  validate(): Promise<boolean>;
+
+  /**
+   * Refreshes the current account credentials.
+   * @return true if the request was successful.
+   */
+  refresh(): Promise<boolean>;
+
+  /**
+   * Invalidates the current account credentials.
+   * @return true if the request was successful.
+   */
+  logout(): Promise<boolean>;
+
+  /**
+   * Serializes the account data into an object.
+   * @return unknown serialized account data.
+   */
+  serialize(): unknown;
 }

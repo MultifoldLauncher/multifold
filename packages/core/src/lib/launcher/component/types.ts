@@ -16,31 +16,14 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export class LaunchEnvironment {
-  /**
-   * The command to launch with. This is usually the fully-qualified path for
-   * java executable. E.g. /usr/bin/java.
-   */
-  command: string;
+import { InstanceManifestComponent } from "../../manifest";
+import { LaunchEnvironment } from "../environment";
 
-  /**
-   * The main class to launch. This is usually Minecraft's main class name or
-   * a wrapper class in a mod loader. E.g. net.minecraft.client.Main.
-   */
-  entryPoint: string;
+export interface Component {
+  readonly name: string;
 
-  /**
-   * Additional classpath entries to be added to the JVM argument.
-   */
-  classpath: string[] = [];
-
-  /**
-   * Launch arguments to pass to Minecraft.
-   */
-  launchArguments: string[] = [];
-
-  /**
-   * Additional JVM arguments to pass to the JVM.
-   */
-  jvmArguments: string[] = [];
+  prepare(
+    environment: Partial<LaunchEnvironment>,
+    descriptor: InstanceManifestComponent
+  ): Promise<void>;
 }
