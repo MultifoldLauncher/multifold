@@ -26,6 +26,9 @@
       ],
       "@multifold/core": [
         "packages/core/src/index.ts"
+      ],
+      "@multifold/multifold": [
+        "packages/multifold/src/index.ts"
       ]
     }
   },

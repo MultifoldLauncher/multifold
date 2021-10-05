@@ -85,6 +85,70 @@
         }
       }
     },
+    "launcher-app": {
+      "root": "apps/launcher/app",
+      "sourceRoot": "apps/launcher/app/src",
+      "projectType": "application",
+      "prefix": "launcher-app",
+      "targets": {
+        "build": {
+          "executor": "nx-electron:build",
+          "options": {
+            "outputPath": "dist/apps/launcher/app",
+            "main": "apps/launcher/app/src/main.ts",
+            "tsConfig": "apps/launcher/app/tsconfig.app.json",
+            "assets": [
+              "apps/launcher/app/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/launcher/app/src/environments/environment.ts",
+                  "with": "apps/launcher/app/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "nx-electron:execute",
+          "options": {
+            "buildTarget": "launcher-app:build"
+          }
+        },
+        "export": {
+          "executor": "nx-electron:package",
+          "options": {
+            "name": "launcher/app",
+            "frontendProject": "launcher-frontend",
+            "outputPath": "dist/apps/launcher/app/packages"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/launcher/app/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/launcher/app"
+          ],
+          "options": {
+            "jestConfig": "apps/launcher/app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "launcher-frontend": {
       "root": "apps/launcher/frontend",
       "sourceRoot": "apps/launcher/frontend",
@@ -145,65 +209,29 @@
         }
       }
     },
-    "launcher-app": {
-      "root": "apps/launcher/app",
-      "sourceRoot": "apps/launcher/app/src",
-      "projectType": "application",
-      "prefix": "launcher-app",
+    "multifold": {
+      "root": "packages/multifold",
+      "sourceRoot": "packages/multifold/src",
+      "projectType": "library",
       "targets": {
-        "build": {
-          "executor": "nx-electron:build",
-          "options": {
-            "outputPath": "dist/apps/launcher/app",
-            "main": "apps/launcher/app/src/main.ts",
-            "tsConfig": "apps/launcher/app/tsconfig.app.json",
-            "assets": [
-              "apps/launcher/app/src/assets"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/launcher/app/src/environments/environment.ts",
-                  "with": "apps/launcher/app/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "executor": "nx-electron:execute",
-          "options": {
-            "buildTarget": "launcher-app:build"
-          }
-        },
-        "export": {
-          "executor": "nx-electron:package",
-          "options": {
-            "name": "launcher/app",
-            "frontendProject": "launcher-frontend",
-            "outputPath": "dist/apps/launcher/app/packages"
-          }
-        },
         "lint": {
           "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
             "lintFilePatterns": [
-              "apps/launcher/app/**/*.ts"
+              "packages/multifold/**/*.ts"
             ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
           "outputs": [
-            "coverage/apps/launcher/app"
+            "coverage/packages/multifold"
           ],
           "options": {
-            "jestConfig": "apps/launcher/app/jest.config.js",
+            "jestConfig": "packages/multifold/jest.config.js",
             "passWithNoTests": true
           }
         }

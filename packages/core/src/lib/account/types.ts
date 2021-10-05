@@ -16,6 +16,13 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+export interface AccountService {
+  /**
+   * Constructs an account from {@param data}.
+   */
+  deserialize(data: unknown): Account;
+}
+
 export interface Account {
   readonly type: string;
 

@@ -3,6 +3,9 @@
   "affected": {
     "defaultBase": "master"
   },
+  "workspaceLayout": {
+    "libsDir": "packages"
+  },
   "implicitDependencies": {
     "package.json": {
       "dependencies": "*",
@@ -41,10 +44,13 @@
     "core": {
       "tags": []
     },
+    "launcher-app": {
+      "tags": []
+    },
     "launcher-frontend": {
       "tags": []
     },
-    "launcher-app": {
+    "multifold": {
       "tags": []
     }
   }
