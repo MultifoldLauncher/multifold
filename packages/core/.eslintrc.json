@@ -2,9 +2,6 @@
   "extends": [
     "../../.eslintrc.json"
   ],
-  "plugins": [
-    "import"
-  ],
   "ignorePatterns": [
     "!**/*"
   ],

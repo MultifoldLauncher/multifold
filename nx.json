@@ -36,16 +36,28 @@
   },
   "projects": {
     "auth-microsoft": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": [
+        "core"
+      ]
     },
     "auth-mojang": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": [
+        "core"
+      ]
     },
     "component-java": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": [
+        "core"
+      ]
     },
     "component-minecraft": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": [
+        "core"
+      ]
     },
     "core": {
       "tags": []
@@ -57,7 +69,10 @@
       "tags": []
     },
     "multifold": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": [
+        "core"
+      ]
     }
   }
 }

@@ -16,18 +16,27 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { InstanceManifestComponent } from "../../manifest";
-import { LaunchEnvironment } from "../environment";
-import { Installation } from "../types";
+export const resolveArtifactPath = (
+  groupId: string,
+  artifactId: string,
+  version: string,
+  kind = "jar",
+  classifier?: string
+): string => {
+  const name = classifier ? `${artifactId}-${version}-${classifier}.${kind}` :
+    `${artifactId}-${version}.${kind}`;
 
-export interface Component {
-  readonly id: string;
+  const pkg = groupId.replace(/\./g, "/");
+  return `${pkg}/${artifactId}/${version}/${name}`;
+};
 
-  readonly name: string;
-
-  prepare(
-    installation: Installation,
-    environment: LaunchEnvironment,
-    descriptor: InstanceManifestComponent
-  ): Promise<void>;
-}
+export const resolveArtifact = (
+  mavenUrl: string,
+  groupId: string,
+  artifactId: string,
+  version: string,
+  kind = "jar",
+  classifier?: string
+): string => {
+  return mavenUrl + resolveArtifactPath(groupId, artifactId, version, kind, classifier);
+};

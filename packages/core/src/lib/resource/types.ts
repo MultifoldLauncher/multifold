@@ -159,6 +159,33 @@ export interface Integrity {
  */
 export interface ResourceManager {
   /**
+   * Initializes the resource manager.
+   */
+  init(): Promise<void>;
+
+  /**
+   * Retrieves the absolute path for {@param descriptor}.
+   *
+   * @returns string path of the specified artifact.
+   */
+  getArtifactPath(descriptor: ArtifactDescriptor): string;
+
+  /**
+   * Retrieves the absolute path for {@param descriptor}.
+   *
+   * @returns string path of the specified resource.
+   */
+  getResourcePath(descriptor: ResourceDescriptor): string;
+
+  /**
+   * Retrieves the absolute path for {@param type}. The directory
+   * may not actually exist.
+   *
+   * @returns string directory for the specified resource type.
+   */
+  getResourceDirectory(type: ArtifactType | ResourceType | string): string;
+
+  /**
    * Verifies that the artifact exists and additionally verify
    * the {@see Integrity} of the artifact.
    *
@@ -175,26 +202,4 @@ export interface ResourceManager {
    * @returns true if the resource is successfully verified.
    */
   verifyResource(descriptor: ResourceDescriptor): Promise<boolean>;
-
-  /**
-   * Retrieves the absolute path for {@param descriptor}.
-   *
-   * @returns string path of the specified artifact.
-   */
-  getArtifact(descriptor: ArtifactDescriptor): string;
-
-  /**
-   * Retrieves the absolute path for {@param descriptor}.
-   *
-   * @returns string path of the specified resource.
-   */
-  getResource(descriptor: ResourceDescriptor): string;
-
-  /**
-   * Retrieves the absolute path for {@param type}. The directory
-   * may not actually exist.
-   *
-   * @returns string directory for the specified resource type.
-   */
-  getResourceFolder(type: ArtifactType | ResourceType | string): string;
 }

@@ -16,18 +16,23 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { InstanceManifestComponent } from "../../manifest";
-import { LaunchEnvironment } from "../environment";
-import { Installation } from "../types";
+import {
+  Component,
+  Installation,
+  InstanceManifestComponent,
+  LaunchEnvironment
+} from "@multifold/core";
 
-export interface Component {
-  readonly id: string;
+export class MinecraftComponent implements Component {
+  readonly id = "net.minecraft.client";
 
-  readonly name: string;
+  readonly name = "Minecraft Client";
 
-  prepare(
+  async prepare(
     installation: Installation,
     environment: LaunchEnvironment,
     descriptor: InstanceManifestComponent
-  ): Promise<void>;
+  ): Promise<void> {
+    // TODO
+  }
 }

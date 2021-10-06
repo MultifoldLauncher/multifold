@@ -16,18 +16,21 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { InstanceManifestComponent } from "../../manifest";
-import { LaunchEnvironment } from "../environment";
-import { Installation } from "../types";
+import { Installation, ResourceManager } from "@multifold/core";
 
-export interface Component {
-  readonly id: string;
+import { getDataDirectory } from "../util/fs";
 
-  readonly name: string;
+export class MultiFoldInstallation implements Installation {
+  readonly path: string;
 
-  prepare(
-    installation: Installation,
-    environment: LaunchEnvironment,
-    descriptor: InstanceManifestComponent
-  ): Promise<void>;
+  readonly resourceManager: ResourceManager;
+
+  constructor(path: string) {
+    this.path = path;
+
+  }
 }
+
+export const createInstallation = (): MultiFoldInstallation => {
+  return new MultiFoldInstallation(getDataDirectory());
+};

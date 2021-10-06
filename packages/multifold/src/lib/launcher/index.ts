@@ -16,18 +16,4 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { InstanceManifestComponent } from "../../manifest";
-import { LaunchEnvironment } from "../environment";
-import { Installation } from "../types";
-
-export interface Component {
-  readonly id: string;
-
-  readonly name: string;
-
-  prepare(
-    installation: Installation,
-    environment: LaunchEnvironment,
-    descriptor: InstanceManifestComponent
-  ): Promise<void>;
-}
+export * from "./launcher";
