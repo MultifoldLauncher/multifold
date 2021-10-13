@@ -16,36 +16,13 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { red } from "@mui/material/colors";
-import darkScrollbar from "@mui/material/darkScrollbar";
-import { createTheme } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+import React from "react";
 
-export const theme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#556cd6"
-    },
-    secondary: {
-      main: "#19857b"
-    },
-    error: {
-      main: red.A400
-    }
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        body: darkScrollbar()
-      }
-    },
-    MuiLink: {
-      defaultProps: {
-        underline: "hover"
-      }
-    }
-  },
-  typography: {
-    fontFamily: "Poppins, Roboto, sans-serif"
-  }
-});
+export default function Test() {
+  return (
+    <Typography>
+      Yes
+    </Typography>
+  );
+}

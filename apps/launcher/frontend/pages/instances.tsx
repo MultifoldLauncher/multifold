@@ -16,36 +16,14 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { red } from "@mui/material/colors";
-import darkScrollbar from "@mui/material/darkScrollbar";
-import { createTheme } from "@mui/material/styles";
+import Head from "next/head";
 
-export const theme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#556cd6"
-    },
-    secondary: {
-      main: "#19857b"
-    },
-    error: {
-      main: red.A400
-    }
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        body: darkScrollbar()
-      }
-    },
-    MuiLink: {
-      defaultProps: {
-        underline: "hover"
-      }
-    }
-  },
-  typography: {
-    fontFamily: "Poppins, Roboto, sans-serif"
-  }
-});
+export default function Instances() {
+  return (
+    <>
+      <Head>
+        <title>MultiFold - Instances</title>
+      </Head>
+    </>
+  );
+}

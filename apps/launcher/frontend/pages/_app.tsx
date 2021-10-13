@@ -23,16 +23,27 @@ import "@fontsource/poppins/700.css";
 
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider } from "@mui/material/styles";
+import { styled, ThemeProvider } from "@mui/material/styles";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import * as React from "react";
+import React, { ReactElement, StrictMode, useEffect, useState } from "react";
 
+import Navigation from "../src/components/layout/Navigation";
 import { createEmotionCache } from "../src/helper/emotion";
+import { Route, RouteContext, routes } from "../src/routing/routing";
 import { theme } from "../src/styles/theme";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
+
+const AppBarSpacer = styled("div")(({ theme }) => theme.mixins.toolbar);
+
+const ContentContainer = styled("div")({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  minHeight: "100vh"
+});
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
@@ -40,19 +51,49 @@ interface MyAppProps extends AppProps {
 
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+
+  const [route, setRoute] = useState<Route>(routes.home);
+
+  const [componentLoading, setComponentLoading] = useState(true);
+  const [component, setComponent] = useState<ReactElement | undefined>();
+
+  useEffect(() => {
+    handleRouteChange(route);
+  }, [route]);
+
+  const handleRouteChange = async (route?: Route) => {
+    if (route) {
+      setComponentLoading(true);
+      try {
+        const module = await route.component;
+        setComponent(module.default(pageProps));
+      } finally {
+        setComponentLoading(false);
+      }
+    } else {
+      setComponentLoading(false);
+      setComponent(undefined);
+    }
+  };
+
   return (
     <CacheProvider value={emotionCache}>
-      <React.StrictMode>
+      <StrictMode>
         <Head>
           <title>MultiFold</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
         <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Component {...pageProps} />
+          <RouteContext.Provider value={{ route, componentLoading, component, setRoute }}>
+            <CssBaseline />
+            <Navigation />
+            <ContentContainer>
+              <AppBarSpacer />
+              <Component {...pageProps} />
+            </ContentContainer>
+          </RouteContext.Provider>
         </ThemeProvider>
-      </React.StrictMode>
+      </StrictMode>
     </CacheProvider>
   );
 }

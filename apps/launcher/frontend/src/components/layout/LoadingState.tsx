@@ -16,36 +16,19 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { red } from "@mui/material/colors";
-import darkScrollbar from "@mui/material/darkScrollbar";
-import { createTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import React from "react";
 
-export const theme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#556cd6"
-    },
-    secondary: {
-      main: "#19857b"
-    },
-    error: {
-      main: red.A400
-    }
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        body: darkScrollbar()
-      }
-    },
-    MuiLink: {
-      defaultProps: {
-        underline: "hover"
-      }
-    }
-  },
-  typography: {
-    fontFamily: "Poppins, Roboto, sans-serif"
-  }
-});
+export default function LoadingState() {
+  return (
+    <Box sx={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      flex: 1
+    }}>
+      <CircularProgress size={64} sx={{ justifyContent: "center" }} value={80}/>
+    </Box>
+  );
+}

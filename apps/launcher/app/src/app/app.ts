@@ -59,7 +59,7 @@ export default class App {
           ...details.responseHeaders,
           // 'unsafe-eval' is required for Next.js in development mode.
           "Content-Security-Policy": this.application.isPackaged ?
-            ["default-src 'self' 'unsafe-inline'"] : ["default-src 'self' 'unsafe-inline' 'unsafe-eval'"]
+            ["default-src 'self' 'unsafe-inline'; img-src https:"] : ["default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src https:"]
         }
       });
     });

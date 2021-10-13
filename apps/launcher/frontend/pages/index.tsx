@@ -16,10 +16,18 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Typography } from "@mui/material";
+import Fade from "@mui/material/Fade";
+import React, { useContext } from "react";
+
+import LoadingState from "../src/components/layout/LoadingState";
+import { RouteContext } from "../src/routing/routing";
 
 export default function Index() {
+  const { componentLoading, component } = useContext(RouteContext);
+
   return (
-    <Typography>Hello, World!</Typography>
+    <Fade in={!componentLoading}>
+      {component || <LoadingState />}
+    </Fade>
   );
 }
