@@ -7,17 +7,18 @@
 Try to stick to one feature/fix/etc. per commit. If you need to use the word "and" in the subject line, then it should
 probably be split into multiple commits.
 
-- Subject line should be formatted as `<type>(area): <short summary>`. Area can be omitted if it applies to all areas, e.g. project build update. Type must be one of the following:
-  - build: changes that affect the build system.
-  - docs: documentation changes.
-  - feat: feature addition.
-  - fix: bug fix.
-  - perf: performance improvements.
-  - refactor: refactoring sections of the codebase.
-  - revert: revert a previous commit.
-  - style: changes to the code style.
-  - test: testing-related.
-  - wip: work-in-progress.
+- Subject line should be formatted as `<type>(area): <short summary>`. Area can be omitted if it applies to all areas,
+  e.g. project build update. Type must be one of the following:
+    - build: changes that affect the build system.
+    - docs: documentation changes.
+    - feat: feature addition.
+    - fix: bug fix.
+    - perf: performance improvements.
+    - refactor: refactoring sections of the codebase.
+    - revert: revert a previous commit.
+    - style: changes to the code style.
+    - test: testing-related.
+    - wip: work-in-progress.
 - Separate the subject line from the body with a new line (`\n`).
 - Do not end the subject line with a period.
 - Do not capitalize the first letter of the subject line.

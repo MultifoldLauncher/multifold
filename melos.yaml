@@ -1,0 +1,7 @@
+name: multifold
+
+packages:
+  - packages/**
+  - components/**
+  - services/**
+  - app/pubspec.yaml
