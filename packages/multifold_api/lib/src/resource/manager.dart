@@ -16,9 +16,31 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import 'dart:io';
+
+import 'resource.dart';
+
 /// Responsible for managing resources in an installation,
 /// this includes libraries, mods, and more.
 abstract class ResourceManager {
   /// Initializes the resource manager.
   Future<void> init();
+
+  /// Retrieve a resource
+  /// TODO: document the parameters
+  Future<ResourceResult> get(Resource resource, {bool volatile = false});
+
+  void close();
+}
+
+class ResourceResult {
+  final File file;
+  final bool cached;
+  final Exception? exception;
+
+  ResourceResult({
+    required this.file,
+    required this.cached,
+    this.exception,
+  });
 }

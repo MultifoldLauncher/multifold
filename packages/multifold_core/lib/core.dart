@@ -17,3 +17,5 @@
  */
 
 library multifold_core;
+
+export 'resource/manager.dart';
