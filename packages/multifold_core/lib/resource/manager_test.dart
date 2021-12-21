@@ -38,13 +38,22 @@ void main() {
     expect(await result.file.exists(), isTrue);
   });
 
+  test("get offline resource", () async {
+    final manager = await _createResourceManager();
+    final resource = Resource(
+      uri: Uri.parse("https://this.url.should.not.exist.multifold.app"),
+    );
+
+    await expectLater(manager.get(resource), throwsA(isA<Exception>()));
+  });
+
   test("get resource with sha512 integrity", () async {
     final manager = await _createResourceManager();
     final resource = Resource(
       uri: _testUri1,
       integrity: ResourceIntegrity(
         sha512:
-        "b284f5d12b6201c64c163d503d1942a9ea4b51cb211a4b7dafea9ceee46099b8016b9cb5792b04a79e03850628494b1a76c2d3b74609262a1b2191473a069508",
+            "b284f5d12b6201c64c163d503d1942a9ea4b51cb211a4b7dafea9ceee46099b8016b9cb5792b04a79e03850628494b1a76c2d3b74609262a1b2191473a069508",
       ),
     );
     final result = await manager.get(resource);
@@ -59,7 +68,7 @@ void main() {
       uri: _testUri1,
       integrity: ResourceIntegrity(
         sha256:
-        "9a6be8db4495acf5ab4971355b1cf57f47c97355f13528670f2e30bd06bfb98e",
+            "9a6be8db4495acf5ab4971355b1cf57f47c97355f13528670f2e30bd06bfb98e",
       ),
     );
     final result = await manager.get(resource);
@@ -150,7 +159,8 @@ void main() {
   test("get offline cached volatile resource with cacheKey", () async {
     final manager = await _createResourceManager();
     final integrity = ResourceIntegrity(
-      sha256: "9a6be8db4495acf5ab4971355b1cf57f47c97355f13528670f2e30bd06bfb98e",
+      sha256:
+          "9a6be8db4495acf5ab4971355b1cf57f47c97355f13528670f2e30bd06bfb98e",
     );
     final resource1 = Resource(
       uri: _testUri1,
@@ -160,7 +170,7 @@ void main() {
     final resource2 = Resource(
       uri: Uri.parse("https://this.url.should.not.exist.multifold.app"),
       cacheKey: "btwiusearch.json",
-      integrity: integrity
+      integrity: integrity,
     );
 
     final result1 = await manager.get(resource1);
