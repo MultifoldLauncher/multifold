@@ -17,20 +17,33 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class MainWidget extends StatelessWidget {
-  const MainWidget({Key? key}) : super(key: key);
+import '../widget/navigation.dart';
+import '../style/theme.dart';
+import 'home.dart';
+
+class AppWidget extends StatelessWidget {
+  const AppWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        child: Text(
-          "Welcome to MultiFold",
-          style: Theme.of(context).textTheme.headline2,
-        ),
-      ),
+    return MaterialApp(
+      title: "MultiFold",
+      debugShowCheckedModeBanner: false,
+      theme: darkTheme,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) {
+        return Column(
+          children: [
+            NavigationBar(),
+            Divider(height: 2),
+            Expanded(child: child ?? SizedBox())
+          ],
+        );
+      },
+      home: HomePage(),
     );
   }
 }

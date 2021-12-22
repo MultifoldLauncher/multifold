@@ -28,27 +28,94 @@ final darkTheme = ThemeData(
   primaryColor: darkPrimaryColor,
   iconTheme: const IconThemeData().copyWith(color: Colors.white),
   fontFamily: "Roboto",
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
+    headline1: const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w300,
+      fontSize: 96,
+      height: 1.167,
+      letterSpacing: -0.24992,
+    ),
     headline2: const TextStyle(
       color: Colors.white,
-      fontSize: 32.0,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w300,
+      fontSize: 60,
+      height: 1.2,
+      letterSpacing: -0.13328,
     ),
-    headline4: TextStyle(
-      fontSize: 12.0,
-      color: Colors.grey[300],
+    headline3: const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w400,
+      fontSize: 48,
+      height: 1.167,
+      letterSpacing: 0,
+    ),
+    headline4: const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w400,
+      fontSize: 34,
+      height: 1.235,
+      letterSpacing: 0.1176,
+    ),
+    headline5: const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w400,
+      fontSize: 24,
+      height: 1.334,
+      letterSpacing: 0,
+    ),
+    headline6: const TextStyle(
+      color: Colors.white,
       fontWeight: FontWeight.w500,
-      letterSpacing: 2.0,
+      fontSize: 20,
+      height: 1.6,
+      letterSpacing: 0.12,
     ),
-    bodyText1: TextStyle(
-      color: Colors.grey[300],
-      fontSize: 14.0,
-      fontWeight: FontWeight.w600,
-      letterSpacing: 1.0,
+    subtitle1: const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w400,
+      fontSize: 16,
+      height: 1.75,
+      letterSpacing: 0.15008,
     ),
-    bodyText2: TextStyle(
-      color: Colors.grey[300],
-      letterSpacing: 1.0,
+    subtitle2: const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w500,
+      fontSize: 14,
+      height: 1.57,
+      letterSpacing: 0.11424,
+    ),
+    bodyText1: const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w400,
+      fontSize: 16,
+      height: 1.5,
+      letterSpacing: 0.15008,
+    ),
+    bodyText2: const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w400,
+      fontSize: 14,
+      height: 1.43,
+      letterSpacing: 0.17136,
+    ),
+    button: const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w500,
+      fontSize: 14,
+      letterSpacing: 0.45712,
+    ),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style:  ButtonStyle(
+      foregroundColor: MaterialStateProperty.all(Colors.white70),
+      textStyle: MaterialStateProperty.all(
+        const TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 14,
+          letterSpacing: 0.45712,
+        ),
+      ),
     ),
   ),
 );

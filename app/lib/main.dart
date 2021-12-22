@@ -17,7 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'src/widget/app.dart';
+import 'src/page/_app.dart';
 
 void main() {
   runApp(AppWidget());

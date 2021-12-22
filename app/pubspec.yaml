@@ -7,9 +7,13 @@ environment:
   sdk: ">=2.14.0 <3.0.0"
 
 dependencies:
+  multifold_core: ^0.1.0
   flutter:
     sdk: flutter
-  multifold_core: ^0.1.0
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
+  flutter_svg: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -18,3 +22,5 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+  assets:
+    - assets/
