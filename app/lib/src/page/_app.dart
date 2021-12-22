@@ -37,7 +37,7 @@ class AppWidget extends StatelessWidget {
       builder: (context, child) {
         return Column(
           children: [
-            NavigationBar(),
+            MultifoldNavigation(),
             Divider(height: 2),
             Expanded(child: child ?? SizedBox())
           ],

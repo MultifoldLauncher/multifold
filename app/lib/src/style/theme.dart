@@ -19,6 +19,7 @@
 import 'package:flutter/material.dart';
 
 const darkPrimaryColor = const Color(0xFF121212);
+const greenPrimaryColor = const Color(0xFF34D656);
 
 final darkTheme = ThemeData(
   brightness: Brightness.dark,
@@ -28,6 +29,11 @@ final darkTheme = ThemeData(
   primaryColor: darkPrimaryColor,
   iconTheme: const IconThemeData().copyWith(color: Colors.white),
   fontFamily: "Roboto",
+  splashColor: greenPrimaryColor,
+  buttonTheme: const ButtonThemeData(
+    textTheme: ButtonTextTheme.primary,
+    splashColor: greenPrimaryColor,
+  ),
   textTheme: const TextTheme(
     headline1: const TextStyle(
       color: Colors.white,
@@ -107,7 +113,12 @@ final darkTheme = ThemeData(
     ),
   ),
   textButtonTheme: TextButtonThemeData(
-    style:  ButtonStyle(
+    style: ButtonStyle(
+      overlayColor: MaterialStateColor.resolveWith((states) {
+        if (states.contains(MaterialState.pressed) || states.contains(MaterialState.hovered))
+          return greenPrimaryColor.withOpacity(0.12);
+        return darkPrimaryColor;
+      }),
       foregroundColor: MaterialStateProperty.all(Colors.white70),
       textStyle: MaterialStateProperty.all(
         const TextStyle(
@@ -116,6 +127,6 @@ final darkTheme = ThemeData(
           letterSpacing: 0.45712,
         ),
       ),
-    ),
+    )
   ),
 );
