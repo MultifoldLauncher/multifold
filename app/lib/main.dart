@@ -17,8 +17,9 @@
  */
 
 import 'package:flutter/material.dart';
+
 import 'src/page/_app.dart';
 
 void main() {
-  runApp(AppWidget());
+  runApp(const AppWidget());
 }

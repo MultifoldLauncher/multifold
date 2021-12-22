@@ -62,14 +62,14 @@ class MultifoldNavigation extends StatelessWidget {
           ),
           const Spacer(),
           Padding(
-            padding: EdgeInsets.only(right: 8),
+            padding: const EdgeInsets.only(right: 8),
             child: Material(
               color: Colors.transparent,
               child: ActionChip(
                 backgroundColor: Colors.grey.shade900,
                 avatar: CircleAvatar(
                   backgroundColor: Colors.grey.shade800,
-                  child: Icon(Icons.account_circle),
+                  child: const Icon(Icons.account_circle),
                 ),
                 label: Text(
                   AppLocalizations.of(context)!.navigationLoginButton,

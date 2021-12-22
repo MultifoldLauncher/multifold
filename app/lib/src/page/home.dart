@@ -67,7 +67,7 @@ class HomePage extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyText2,
         ),
         MaterialButton(
-          child: Text("Button"),
+          child: const Text("Button"),
           onPressed: () {},
         )
       ],

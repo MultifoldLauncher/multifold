@@ -37,13 +37,13 @@ class AppWidget extends StatelessWidget {
       builder: (context, child) {
         return Column(
           children: [
-            MultifoldNavigation(),
-            Divider(height: 2),
-            Expanded(child: child ?? SizedBox())
+            const MultifoldNavigation(),
+            const Divider(height: 2),
+            Expanded(child: child ?? const SizedBox())
           ],
         );
       },
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

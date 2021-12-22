@@ -18,8 +18,8 @@
 
 import 'package:flutter/material.dart';
 
-const darkPrimaryColor = const Color(0xFF121212);
-const greenPrimaryColor = const Color(0xFF34D656);
+const darkPrimaryColor = Color(0xFF121212);
+const greenPrimaryColor = Color(0xFF34D656);
 
 final darkTheme = ThemeData(
   brightness: Brightness.dark,
@@ -35,77 +35,77 @@ final darkTheme = ThemeData(
     splashColor: greenPrimaryColor,
   ),
   textTheme: const TextTheme(
-    headline1: const TextStyle(
+    headline1: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w300,
       fontSize: 96,
       height: 1.167,
       letterSpacing: -0.24992,
     ),
-    headline2: const TextStyle(
+    headline2: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w300,
       fontSize: 60,
       height: 1.2,
       letterSpacing: -0.13328,
     ),
-    headline3: const TextStyle(
+    headline3: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w400,
       fontSize: 48,
       height: 1.167,
       letterSpacing: 0,
     ),
-    headline4: const TextStyle(
+    headline4: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w400,
       fontSize: 34,
       height: 1.235,
       letterSpacing: 0.1176,
     ),
-    headline5: const TextStyle(
+    headline5: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w400,
       fontSize: 24,
       height: 1.334,
       letterSpacing: 0,
     ),
-    headline6: const TextStyle(
+    headline6: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w500,
       fontSize: 20,
       height: 1.6,
       letterSpacing: 0.12,
     ),
-    subtitle1: const TextStyle(
+    subtitle1: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w400,
       fontSize: 16,
       height: 1.75,
       letterSpacing: 0.15008,
     ),
-    subtitle2: const TextStyle(
+    subtitle2: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w500,
       fontSize: 14,
       height: 1.57,
       letterSpacing: 0.11424,
     ),
-    bodyText1: const TextStyle(
+    bodyText1: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w400,
       fontSize: 16,
       height: 1.5,
       letterSpacing: 0.15008,
     ),
-    bodyText2: const TextStyle(
+    bodyText2: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w400,
       fontSize: 14,
       height: 1.43,
       letterSpacing: 0.17136,
     ),
-    button: const TextStyle(
+    button: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w500,
       fontSize: 14,
@@ -115,8 +115,9 @@ final darkTheme = ThemeData(
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
       overlayColor: MaterialStateColor.resolveWith((states) {
-        if (states.contains(MaterialState.pressed) || states.contains(MaterialState.hovered))
+        if (states.contains(MaterialState.pressed) || states.contains(MaterialState.hovered)) {
           return greenPrimaryColor.withOpacity(0.12);
+        }
         return darkPrimaryColor;
       }),
       foregroundColor: MaterialStateProperty.all(Colors.white70),
