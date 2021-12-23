@@ -16,17 +16,8 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-library multifold_api;
+class Constants {
+  static const userAgent = "multifold.app";
 
-export 'src/instance/instance.dart';
-
-export 'src/launcher/environment.dart';
-export 'src/launcher/installation.dart';
-
-export 'src/manifest/instance.dart';
-export 'src/manifest/manifest.dart';
-
-export 'src/resource/manager.dart';
-export 'src/resource/resource.dart';
-
-export 'src/util/constants.dart';
+  Constants._();
+}

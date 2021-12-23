@@ -28,7 +28,6 @@ import 'package:path/path.dart' as p;
 import 'package:multifold_api/api.dart';
 
 final RegExp _namespaceRegex = RegExp(r'^[0-9a-zA-Z_-]+$');
-const String _userAgent = "Mozilla/5.0 Multifold Launcher";
 
 class MutlifoldResourceManager implements ResourceManager {
   final RetryClient _client = RetryClient(http.Client());
@@ -134,7 +133,7 @@ class MutlifoldResourceManager implements ResourceManager {
 
   Future<void> _download(Uri uri, File destination) async {
     final req = http.Request("GET", uri);
-    req.headers["user-agent"] = _userAgent;
+    req.headers["user-agent"] = Constants.userAgent;
 
     final res = await _client.send(req);
     final sink = destination.openWrite();
