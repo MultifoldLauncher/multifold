@@ -5,3 +5,14 @@ packages:
   - components/**
   - services/**
   - app/pubspec.yaml
+
+scripts:
+  gen:
+    run: melos exec -c 1 --fail-fast -- dart run build_runner build --delete-conflicting-outputs
+    description: Generate files with `build_runner` for a selected package.
+    select-package:
+      depends-on: build_runner
+
+  gen:all:
+    run: melos run gen --no-select
+    description: Generate files with `build_runner` for all packages.
