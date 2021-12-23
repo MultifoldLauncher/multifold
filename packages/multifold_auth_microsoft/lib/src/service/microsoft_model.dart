@@ -21,7 +21,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'microsoft_model.g.dart';
 
 @JsonSerializable()
-class ErrorResponse implements Exception {
+class MSAErrorResponse implements Exception {
   final String error;
 
   @JsonKey(name: "error_description")
@@ -41,7 +41,7 @@ class ErrorResponse implements Exception {
   @JsonKey(name: "error_uri")
   final Uri errorUri;
 
-  ErrorResponse({
+  MSAErrorResponse({
     required this.error,
     required this.errorDescription,
     required this.errorCodes,
@@ -51,17 +51,17 @@ class ErrorResponse implements Exception {
     required this.errorUri,
   });
 
-  factory ErrorResponse.fromJson(Map<String, dynamic> json) =>
-      _$ErrorResponseFromJson(json);
+  factory MSAErrorResponse.fromJson(Map<String, dynamic> json) =>
+      _$MSAErrorResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ErrorResponseToJson(this);
+  Map<String, dynamic> toJson() => _$MSAErrorResponseToJson(this);
 
   @override
   String toString() => errorDescription;
 }
 
 @JsonSerializable()
-class DeviceAuthorizationResponse {
+class MSADeviceAuthorizationResponse {
   @JsonKey(name: "device_code")
   final String deviceCode;
 
@@ -79,7 +79,7 @@ class DeviceAuthorizationResponse {
 
   final String message;
 
-  DeviceAuthorizationResponse({
+  MSADeviceAuthorizationResponse({
     required this.deviceCode,
     required this.userCode,
     required this.verificationUri,
@@ -88,14 +88,14 @@ class DeviceAuthorizationResponse {
     required this.message,
   });
 
-  factory DeviceAuthorizationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeviceAuthorizationResponseFromJson(json);
+  factory MSADeviceAuthorizationResponse.fromJson(Map<String, dynamic> json) =>
+      _$MSADeviceAuthorizationResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeviceAuthorizationResponseToJson(this);
+  Map<String, dynamic> toJson() => _$MSADeviceAuthorizationResponseToJson(this);
 }
 
 @JsonSerializable()
-class DeviceTokenResponse {
+class MSADeviceTokenResponse {
   @JsonKey(name: "token_type")
   final String tokenType;
 
@@ -111,7 +111,7 @@ class DeviceTokenResponse {
   @JsonKey(name: "refresh_token")
   final String refreshToken;
 
-  DeviceTokenResponse({
+  MSADeviceTokenResponse({
     required this.tokenType,
     required this.scope,
     required this.expiresIn,
@@ -119,8 +119,8 @@ class DeviceTokenResponse {
     required this.refreshToken,
   });
 
-  factory DeviceTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeviceTokenResponseFromJson(json);
+  factory MSADeviceTokenResponse.fromJson(Map<String, dynamic> json) =>
+      _$MSADeviceTokenResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeviceTokenResponseToJson(this);
+  Map<String, dynamic> toJson() => _$MSADeviceTokenResponseToJson(this);
 }

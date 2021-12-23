@@ -20,22 +20,23 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:multifold_api/api.dart';
 
 import 'microsoft_model.dart';
 
-class PublicClientApplication {
+class MicrosoftAuthenticationService {
   final http.Client _client;
   final String clientId;
   final String authority;
 
-  PublicClientApplication(
+  MicrosoftAuthenticationService(
     this._client, {
     this.clientId = "389b1b32-b5d5-43b2-bddc-84ce938d6737",
     this.authority = "https://login.microsoftonline.com/consumers",
   });
 
   // https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-device-code#device-authorization-request
-  Future<DeviceAuthorizationResponse> authorizeDevice({
+  Future<MSADeviceAuthorizationResponse> authorizeDevice({
     List<String> scopes = const ["XboxLive.signin", "offline_access"],
   }) async {
     final uri = Uri.parse(authority + "/oauth2/v2.0/devicecode");
@@ -43,7 +44,8 @@ class PublicClientApplication {
     final res = await _client.post(
       uri,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "content-type": "application/x-www-form-urlencoded",
+        "user-agent": Constants.userAgent
       },
       body: {
         "client_id": clientId,
@@ -52,14 +54,14 @@ class PublicClientApplication {
     );
     final json = jsonDecode(res.body);
     if (json["error"] != null) {
-      throw ErrorResponse.fromJson(json);
+      throw MSAErrorResponse.fromJson(json);
     }
 
-    return DeviceAuthorizationResponse.fromJson(json);
+    return MSADeviceAuthorizationResponse.fromJson(json);
   }
 
   // https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-device-code#authenticating-the-user
-  Future<DeviceTokenResponse> authenticateUser({
+  Future<MSADeviceTokenResponse> authenticateUser({
     required String deviceCode,
   }) async {
     final uri = Uri.parse(authority + "/oauth2/v2.0/token");
@@ -67,7 +69,8 @@ class PublicClientApplication {
     final res = await _client.post(
       uri,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "content-type": "application/x-www-form-urlencoded",
+        "user-agent": Constants.userAgent
       },
       body: {
         "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
@@ -77,18 +80,18 @@ class PublicClientApplication {
     );
     final json = jsonDecode(res.body);
     if (json["error"] != null) {
-      throw ErrorResponse.fromJson(json);
+      throw MSAErrorResponse.fromJson(json);
     }
 
-    return DeviceTokenResponse.fromJson(json);
+    return MSADeviceTokenResponse.fromJson(json);
   }
 
-  Future<DeviceTokenResponse> awaitAuthenticateUser({
+  Future<MSADeviceTokenResponse> awaitAuthenticateUser({
     required String deviceCode,
     required int interval,
     required int timeout,
   }) async {
-    final completer = Completer<DeviceTokenResponse>();
+    final completer = Completer<MSADeviceTokenResponse>();
 
     var elapsedSeconds = 0;
     Timer.periodic(Duration(seconds: interval), (timer) async {

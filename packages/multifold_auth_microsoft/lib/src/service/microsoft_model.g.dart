@@ -6,8 +6,8 @@ part of 'microsoft_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ErrorResponse _$ErrorResponseFromJson(Map<String, dynamic> json) =>
-    ErrorResponse(
+MSAErrorResponse _$MSAErrorResponseFromJson(Map<String, dynamic> json) =>
+    MSAErrorResponse(
       error: json['error'] as String,
       errorDescription: json['error_description'] as String,
       errorCodes:
@@ -18,7 +18,7 @@ ErrorResponse _$ErrorResponseFromJson(Map<String, dynamic> json) =>
       errorUri: Uri.parse(json['error_uri'] as String),
     );
 
-Map<String, dynamic> _$ErrorResponseToJson(ErrorResponse instance) =>
+Map<String, dynamic> _$MSAErrorResponseToJson(MSAErrorResponse instance) =>
     <String, dynamic>{
       'error': instance.error,
       'error_description': instance.errorDescription,
@@ -29,9 +29,9 @@ Map<String, dynamic> _$ErrorResponseToJson(ErrorResponse instance) =>
       'error_uri': instance.errorUri.toString(),
     };
 
-DeviceAuthorizationResponse _$DeviceAuthorizationResponseFromJson(
+MSADeviceAuthorizationResponse _$MSADeviceAuthorizationResponseFromJson(
         Map<String, dynamic> json) =>
-    DeviceAuthorizationResponse(
+    MSADeviceAuthorizationResponse(
       deviceCode: json['device_code'] as String,
       userCode: json['user_code'] as String,
       verificationUri: Uri.parse(json['verification_uri'] as String),
@@ -40,8 +40,8 @@ DeviceAuthorizationResponse _$DeviceAuthorizationResponseFromJson(
       message: json['message'] as String,
     );
 
-Map<String, dynamic> _$DeviceAuthorizationResponseToJson(
-        DeviceAuthorizationResponse instance) =>
+Map<String, dynamic> _$MSADeviceAuthorizationResponseToJson(
+        MSADeviceAuthorizationResponse instance) =>
     <String, dynamic>{
       'device_code': instance.deviceCode,
       'user_code': instance.userCode,
@@ -51,8 +51,9 @@ Map<String, dynamic> _$DeviceAuthorizationResponseToJson(
       'message': instance.message,
     };
 
-DeviceTokenResponse _$DeviceTokenResponseFromJson(Map<String, dynamic> json) =>
-    DeviceTokenResponse(
+MSADeviceTokenResponse _$MSADeviceTokenResponseFromJson(
+        Map<String, dynamic> json) =>
+    MSADeviceTokenResponse(
       tokenType: json['token_type'] as String,
       scope: json['scope'] as String,
       expiresIn: json['expires_in'] as int,
@@ -60,8 +61,8 @@ DeviceTokenResponse _$DeviceTokenResponseFromJson(Map<String, dynamic> json) =>
       refreshToken: json['refresh_token'] as String,
     );
 
-Map<String, dynamic> _$DeviceTokenResponseToJson(
-        DeviceTokenResponse instance) =>
+Map<String, dynamic> _$MSADeviceTokenResponseToJson(
+        MSADeviceTokenResponse instance) =>
     <String, dynamic>{
       'token_type': instance.tokenType,
       'scope': instance.scope,
