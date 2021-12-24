@@ -77,7 +77,7 @@ class MSADeviceAuthorizationResponse {
   @JsonKey(name: "interval")
   final int interval;
 
-  final String message;
+  final String? message;
 
   MSADeviceAuthorizationResponse({
     required this.deviceCode,
@@ -85,7 +85,7 @@ class MSADeviceAuthorizationResponse {
     required this.verificationUri,
     required this.expiresIn,
     required this.interval,
-    required this.message,
+    this.message,
   });
 
   factory MSADeviceAuthorizationResponse.fromJson(Map<String, dynamic> json) =>

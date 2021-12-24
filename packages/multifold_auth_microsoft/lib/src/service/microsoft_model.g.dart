@@ -37,7 +37,7 @@ MSADeviceAuthorizationResponse _$MSADeviceAuthorizationResponseFromJson(
       verificationUri: Uri.parse(json['verification_uri'] as String),
       expiresIn: json['expires_in'] as int,
       interval: json['interval'] as int,
-      message: json['message'] as String,
+      message: json['message'] as String?,
     );
 
 Map<String, dynamic> _$MSADeviceAuthorizationResponseToJson(
