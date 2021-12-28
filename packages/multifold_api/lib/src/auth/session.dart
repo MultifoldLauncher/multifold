@@ -16,22 +16,8 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-library multifold_api;
-
-export 'src/auth/session.dart';
-
-export 'src/instance/instance.dart';
-
-export 'src/launcher/component/component.dart';
-export 'src/launcher/launcher.dart';
-export 'src/launcher/context.dart';
-export 'src/launcher/installation.dart';
-
-export 'src/manifest/instance.dart';
-export 'src/manifest/manifest.dart';
-
-export 'src/resource/manager.dart';
-export 'src/resource/resource.dart';
-
-export 'src/util/constants.dart';
-export 'src/util/fs.dart';
+abstract class SessionData {
+  String get id;
+  String get username;
+  String get accessToken;
+}

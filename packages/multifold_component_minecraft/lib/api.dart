@@ -16,21 +16,4 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-class LaunchEnvironment {
-  /// The command to launch with. This is usually the fully-qualified path for
-  /// java executable. E.g. /usr/bin/java.
-  late String command;
-
-  /// The main class to launch. This is usually Minecraft's main class name or
-  /// a wrapper class in a mod loader. E.g. net.minecraft.client.Main.
-  late String entryPoint;
-
-  /// Additional classpath entries to be added to the JVM argument.
-  List<String> classpath = [];
-
-  /// Launch arguments to pass to Minecraft.
-  List<String> launchArguments = [];
-
-  /// Additional JVM arguments to pass to the JVM.
-  List<String> jvmArguments = [];
-}
+export 'src/component/minecraft.dart';

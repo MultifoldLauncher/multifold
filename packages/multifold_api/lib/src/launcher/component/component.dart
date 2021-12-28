@@ -16,22 +16,28 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-library multifold_api;
+import 'package:multifold_api/api.dart';
 
-export 'src/auth/session.dart';
+abstract class ComponentFactory {
+  String get id;
 
-export 'src/instance/instance.dart';
+  Component create(ComponentDescriptor descriptor);
+}
 
-export 'src/launcher/component/component.dart';
-export 'src/launcher/launcher.dart';
-export 'src/launcher/context.dart';
-export 'src/launcher/installation.dart';
+abstract class Component {
+  String get name;
 
-export 'src/manifest/instance.dart';
-export 'src/manifest/manifest.dart';
+  Future<void> execute(LaunchContext context);
+}
 
-export 'src/resource/manager.dart';
-export 'src/resource/resource.dart';
+class ComponentDescriptor {
+  final String id;
+  final String? version;
+  final Map<String, dynamic>? settings;
 
-export 'src/util/constants.dart';
-export 'src/util/fs.dart';
+  ComponentDescriptor({
+    required this.id,
+    this.version,
+    this.settings,
+  });
+}

@@ -16,6 +16,20 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import 'package:multifold_api/api.dart';
+
+import '../resource/manager.dart';
+
 abstract class Installation {
   String get path;
+
+  ResourceManager get resourceManager;
+
+  Launcher get launcher;
+
+  /// Initialize the installation. This should be called before other API calls.
+  Future<void> init();
+
+  /// Free any remaining resources.
+  void close();
 }

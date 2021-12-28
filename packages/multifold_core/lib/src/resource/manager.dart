@@ -29,11 +29,11 @@ import 'package:multifold_api/api.dart';
 
 final RegExp _namespaceRegex = RegExp(r'^[0-9a-zA-Z_-]+$');
 
-class MutlifoldResourceManager implements ResourceManager {
+class MultiFoldResourceManager implements ResourceManager {
   final RetryClient _client = RetryClient(http.Client());
   final String _path;
 
-  MutlifoldResourceManager(this._path);
+  MultiFoldResourceManager(this._path);
 
   @override
   Future<void> init() async {
@@ -44,7 +44,7 @@ class MutlifoldResourceManager implements ResourceManager {
   Future<ResourceResult> get(Resource resource, {bool volatile = false}) async {
     assert(_namespaceRegex.hasMatch(resource.namespace));
 
-    final cacheKey = resource.cacheKey ?? _computeCacheKey(resource);
+    final cacheKey = resource.cacheKey ?? _computeCacheKey(resource.uri);
     final path = p.join(this._path, resource.namespace, cacheKey);
 
     final file = File(path);
@@ -52,6 +52,7 @@ class MutlifoldResourceManager implements ResourceManager {
 
     if (!volatile && exists) {
       // If the resource is not volatile and the file exists
+      final start = DateTime.now();
       final integrity = resource.integrity;
       if (integrity == null || await _verifyIntegrity(file, integrity)) {
         // Cache hit
@@ -65,7 +66,7 @@ class MutlifoldResourceManager implements ResourceManager {
       await file.parent.create(recursive: true);
       try {
         await _download(resource.uri, file);
-      } catch (e) {
+      } on Exception catch (e) {
         // Re-throw of the file does not exist
         if (!exists) throw e;
 
@@ -74,7 +75,7 @@ class MutlifoldResourceManager implements ResourceManager {
           return ResourceResult(
             file: file,
             cached: true,
-            exception: e as Exception,
+            exception: e,
           );
         } else {
           throw Exception("integrity check failed");
@@ -91,6 +92,68 @@ class MutlifoldResourceManager implements ResourceManager {
     // Probably hacked??
     throw Exception("integrity check failed");
   }
+
+  @override
+  String getPath({String namespace = "default", String? cacheKey}) {
+    if (cacheKey != null) {
+      return p.join(_path, namespace, cacheKey);
+    } else {
+      return p.join(_path, namespace);
+    }
+  }
+
+  @override
+  Future<String> fetch(
+    Uri uri, {
+    String namespace = "default",
+    String? cacheKey,
+    ResourceIntegrity? integrity,
+  }) async {
+    final effectiveCacheKey = cacheKey ?? _computeCacheKey(uri);
+    final path = p.join(this._path, namespace, effectiveCacheKey);
+
+    final file = File(path);
+    final exists = await file.exists();
+
+    if (integrity != null &&
+        exists &&
+        await _verifyIntegrity(file, integrity)) {
+      final bytes = await file.readAsBytes();
+      return utf8.decode(bytes);
+    }
+
+    try {
+      final res = await _client.get(uri, headers: {
+        "user-agent": Constants.userAgent,
+      });
+
+      // Cache asynchronously
+      _writeCache(file, res.body);
+
+      return res.body;
+    } catch (e) {
+      if (exists && integrity == null) {
+        final bytes = await file.readAsBytes();
+        return utf8.decode(bytes);
+      }
+
+      throw e;
+    }
+  }
+
+  @override
+  Future<T> fetchJSON<T extends dynamic>(
+    Uri uri, {
+    String namespace = "default",
+    String? cacheKey,
+    ResourceIntegrity? integrity,
+  }) =>
+      fetch(
+        uri,
+        namespace: namespace,
+        cacheKey: cacheKey,
+        integrity: integrity,
+      ).then((json) => jsonDecode(json));
 
   Future<bool> _verifyIntegrity(File file, ResourceIntegrity integrity) async {
     var digest = integrity.sha512;
@@ -145,16 +208,21 @@ class MutlifoldResourceManager implements ResourceManager {
     }
   }
 
-  /// Compute cache key for [resource] using the URI's SHA-256
-  String _computeCacheKey(Resource resource) {
-    final uri = utf8.encode(resource.uri.toString());
-    final digest = sha256.convert(uri).toString();
+  /// Compute cache key for a URI using SHA-256
+  String _computeCacheKey(Uri uri) {
+    final bytes = utf8.encode(uri.toString());
+    final digest = sha256.convert(bytes).toString();
 
     return p.join(
       digest.substring(0, 2),
       digest.substring(2, 4),
       digest.substring(4),
     );
+  }
+
+  Future<void> _writeCache(File file, String body) async {
+    await file.parent.create(recursive: true);
+    await file.writeAsString(body);
   }
 
   void close() {

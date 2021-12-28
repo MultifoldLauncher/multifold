@@ -16,22 +16,14 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-library multifold_api;
+import '../auth/session.dart';
+import '../instance/instance.dart';
+import 'component/component.dart';
 
-export 'src/auth/session.dart';
+abstract class Launcher {
+  void registerComponentFactory(ComponentFactory factory);
 
-export 'src/instance/instance.dart';
+  Component createComponent(ComponentDescriptor descriptor);
 
-export 'src/launcher/component/component.dart';
-export 'src/launcher/launcher.dart';
-export 'src/launcher/context.dart';
-export 'src/launcher/installation.dart';
-
-export 'src/manifest/instance.dart';
-export 'src/manifest/manifest.dart';
-
-export 'src/resource/manager.dart';
-export 'src/resource/resource.dart';
-
-export 'src/util/constants.dart';
-export 'src/util/fs.dart';
+  Future<void> launch(Instance instance, SessionData sessionData);
+}

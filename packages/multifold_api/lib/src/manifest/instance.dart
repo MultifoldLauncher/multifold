@@ -16,6 +16,8 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import 'package:multifold_api/api.dart';
+
 import 'manifest.dart';
 
 /// https://github.com/MultifoldLauncher/rfcs/blob/master/specification/0001-multifold.instance.json.md
@@ -66,7 +68,7 @@ class InstanceManifestMetadata {
 }
 
 class InstanceManifestSpec {
-  final List<InstanceManifestComponent> components;
+  final List<ComponentDescriptor> components;
 
   InstanceManifestSpec({
     this.components = const [],
@@ -74,31 +76,18 @@ class InstanceManifestSpec {
 
   factory InstanceManifestSpec.from(Map<String, dynamic> data) {
     final List<Map<String, dynamic>> components = data["components"];
-    final mappedComponents =
-        components.map((e) => InstanceManifestComponent.from(e)).toList();
+    final mappedComponents = components
+        .map(
+          (e) => ComponentDescriptor(
+            id: data["id"],
+            version: data["version"],
+            settings: data["settings"],
+          ),
+        )
+        .toList();
 
     return InstanceManifestSpec(
       components: mappedComponents,
-    );
-  }
-}
-
-class InstanceManifestComponent {
-  String id;
-  final String version;
-  final Map<String, dynamic>? settings;
-
-  InstanceManifestComponent({
-    required this.id,
-    required this.version,
-    this.settings,
-  });
-
-  factory InstanceManifestComponent.from(Map<String, dynamic> data) {
-    return InstanceManifestComponent(
-      id: data["id"],
-      version: data["version"],
-      settings: data["settings"],
     );
   }
 }

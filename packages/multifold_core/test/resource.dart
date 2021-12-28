@@ -184,7 +184,7 @@ void main() {
 
 Future<ResourceManager> _createResourceManager() async {
   final directory = await Directory.systemTemp.createTemp("multifold-");
-  final manager = MutlifoldResourceManager(directory.path);
+  final manager = MultiFoldResourceManager(directory.path);
 
   await manager.init();
 

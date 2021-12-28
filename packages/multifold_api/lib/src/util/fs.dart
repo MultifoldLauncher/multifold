@@ -16,22 +16,31 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-library multifold_api;
+import 'dart:io';
 
-export 'src/auth/session.dart';
+import 'package:path/path.dart' as p;
 
-export 'src/instance/instance.dart';
+String getDataPath() {
+  switch (Platform.operatingSystem) {
+    case "windows":
+      final appData = Platform.environment["APPDATA"]!;
+      return p.join(appData, "MultiFold");
 
-export 'src/launcher/component/component.dart';
-export 'src/launcher/launcher.dart';
-export 'src/launcher/context.dart';
-export 'src/launcher/installation.dart';
+    case "macos":
+      final home = Platform.environment["HOME"]!;
+      return p.join(home, "Library", "Application Support", "multifold");
 
-export 'src/manifest/instance.dart';
-export 'src/manifest/manifest.dart';
+    case "linux":
+      final xdgDataHome = Platform.environment["XDG_DATA_HOME"];
+      if (xdgDataHome != null) {
+        return p.join(xdgDataHome, "multifold");
+      }
 
-export 'src/resource/manager.dart';
-export 'src/resource/resource.dart';
+      final home = Platform.environment["HOME"]!;
+      return p.join(home, ".local", "share", "multifold");
 
-export 'src/util/constants.dart';
-export 'src/util/fs.dart';
+    default:
+      final home = Platform.environment["HOME"]!;
+      return p.join(home, ".multifold");
+  }
+}

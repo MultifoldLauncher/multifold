@@ -16,6 +16,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import '../manifest/instance.dart';
+
 abstract class Instance {
-  String get manifest;
+  String get path;
+  InstanceManifest get manifest;
 }

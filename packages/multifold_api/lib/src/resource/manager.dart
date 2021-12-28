@@ -30,6 +30,22 @@ abstract class ResourceManager {
   /// TODO: document the parameters
   Future<ResourceResult> get(Resource resource, {bool volatile = false});
 
+  String getPath({String namespace = "default", String? cacheKey});
+
+  Future<String> fetch(
+    Uri uri, {
+    String namespace = "default",
+    String? cacheKey,
+    ResourceIntegrity? integrity,
+  });
+
+  Future<T> fetchJSON<T extends dynamic>(
+    Uri uri, {
+    String namespace = "default",
+    String? cacheKey,
+    ResourceIntegrity? integrity,
+  });
+
   void close();
 }
 
