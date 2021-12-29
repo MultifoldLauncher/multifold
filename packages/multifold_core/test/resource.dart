@@ -149,7 +149,7 @@ void main() {
     final lastModified = await result1.file.lastModified();
 
     // Make sure that there is a time difference
-    sleep(Duration(seconds: 2));
+    sleep(const Duration(seconds: 2));
 
     final result2 = await manager.get(resource2, volatile: true);
     expect(result2.cached, false);

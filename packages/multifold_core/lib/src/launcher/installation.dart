@@ -51,7 +51,7 @@ class MultiFoldInstallation implements Installation {
 
   @override
   Future<void> init() async {
-    await new Directory(path).create(recursive: true);
+    await Directory(path).create(recursive: true);
 
     await Future.wait([
       resourceManager.init(),
@@ -59,6 +59,7 @@ class MultiFoldInstallation implements Installation {
     ]);
   }
 
+  @override
   void close() {
     resourceManager.close();
   }

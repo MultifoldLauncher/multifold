@@ -18,7 +18,6 @@
 
 import 'package:multifold_api/api.dart';
 
-import '../resource/manager.dart';
 
 abstract class Installation {
   String get path;

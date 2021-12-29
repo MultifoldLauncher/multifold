@@ -18,8 +18,6 @@
 
 import 'package:multifold_api/api.dart';
 
-import 'manifest.dart';
-
 /// https://github.com/MultifoldLauncher/rfcs/blob/master/specification/0001-multifold.instance.json.md
 class InstanceManifest implements Manifest {
   @override
@@ -36,11 +34,11 @@ class InstanceManifest implements Manifest {
 
   factory InstanceManifest.from(Map<String, dynamic> data) {
     if (data["version"] != 1) {
-      throw FormatException("Invalid manifest version");
+      throw const FormatException("Invalid manifest version");
     }
 
     if (data["kind"] != "Instance") {
-      throw FormatException("Invalid manifest kind");
+      throw const FormatException("Invalid manifest kind");
     }
 
     final Map<String, dynamic> metadata = data["metadata"];

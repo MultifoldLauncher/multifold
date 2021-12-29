@@ -35,7 +35,7 @@ class MinecraftComponent implements Component {
   Future<void> execute(LaunchContext context) async {
     final resourceManager = context.installation.resourceManager;
 
-    _logger.i("downloading launcher manifest for version ${_version}");
+    _logger.i("downloading launcher manifest for version $_version");
     final launcherManifest = await _fetch(
       manager: resourceManager,
       uri: "https://launchermeta.mojang.com/mc/game/version_manifest.json",
@@ -48,7 +48,7 @@ class MinecraftComponent implements Component {
     final Map<String, dynamic> manifest = await _fetch(
       manager: resourceManager,
       uri: version["url"],
-      cacheKey: "versions/${_version}/manifest.json",
+      cacheKey: "versions/$_version/manifest.json",
     );
 
     final List<ResourceResult> resources = [];
@@ -56,7 +56,7 @@ class MinecraftComponent implements Component {
     _logger.i("downloading client jar");
     final clientDownload = manifest["downloads"]["client"];
     final clientResource = _createResource(clientDownload,
-        cacheKey: "versions/${_version}/client.jar");
+        cacheKey: "versions/$_version/client.jar");
 
     resources.add(await resourceManager.get(clientResource));
 
@@ -197,7 +197,7 @@ class MinecraftComponent implements Component {
   Resource _createResource(Map<String, dynamic> json, {String? cacheKey}) {
     final path = json["path"];
     if (path != null) {
-      cacheKey = "libraries/${path}";
+      cacheKey = "libraries/$path";
     }
 
     return Resource(
@@ -232,9 +232,9 @@ class MinecraftComponentFactory implements ComponentFactory {
     final version = descriptor.version;
     if (version == null) {
       // TODO: Localized exceptions?
-      throw new Exception("version must not be null");
+      throw Exception("version must not be null");
     }
 
-    return new MinecraftComponent(version: version);
+    return MinecraftComponent(version: version);
   }
 }

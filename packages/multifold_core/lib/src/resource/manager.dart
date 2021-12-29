@@ -24,9 +24,8 @@ import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
 import 'package:logger/logger.dart';
-import 'package:path/path.dart' as p;
-
 import 'package:multifold_api/api.dart';
+import 'package:path/path.dart' as p;
 
 final RegExp _namespaceRegex = RegExp(r'^[0-9a-zA-Z_-]+$');
 final Logger _logger = getLogger('ResourceManager');
@@ -39,23 +38,23 @@ class MultiFoldResourceManager implements ResourceManager {
 
   @override
   Future<void> init() async {
-    await Directory(this._path).create();
+    await Directory(_path).create();
   }
 
   @override
   Future<ResourceResult> get(Resource resource, {bool volatile = false}) async {
     assert(_namespaceRegex.hasMatch(resource.namespace));
-    _logger.d('getting resource \"${resource.uri}\" to \"${resource.namespace}\": \"${resource.cacheKey}\"');
+    _logger.d(
+        'getting resource "${resource.uri}" to "${resource.namespace}": "${resource.cacheKey}"');
 
     final cacheKey = resource.cacheKey ?? _computeCacheKey(resource.uri);
-    final path = p.join(this._path, resource.namespace, cacheKey);
+    final path = p.join(_path, resource.namespace, cacheKey);
 
     final file = File(path);
     final exists = await file.exists();
 
     if (!volatile && exists) {
       // If the resource is not volatile and the file exists
-      final start = DateTime.now();
       final integrity = resource.integrity;
       if (integrity == null || await _verifyIntegrity(file, integrity)) {
         // Cache hit
@@ -71,7 +70,7 @@ class MultiFoldResourceManager implements ResourceManager {
         await _download(resource.uri, file);
       } on Exception catch (e) {
         // Re-throw of the file does not exist
-        if (!exists) throw e;
+        if (!exists) rethrow;
 
         final integrity = resource.integrity;
         if (integrity == null || await _verifyIntegrity(file, integrity)) {
@@ -115,7 +114,7 @@ class MultiFoldResourceManager implements ResourceManager {
     _logger.d("fetching \"$uri\" to \"$namespace\": \"$cacheKey\"");
 
     final effectiveCacheKey = cacheKey ?? _computeCacheKey(uri);
-    final path = p.join(this._path, namespace, effectiveCacheKey);
+    final path = p.join(_path, namespace, effectiveCacheKey);
 
     final file = File(path);
     final exists = await file.exists();
@@ -141,8 +140,7 @@ class MultiFoldResourceManager implements ResourceManager {
         final bytes = await file.readAsBytes();
         return utf8.decode(bytes);
       }
-
-      throw e;
+      rethrow;
     }
   }
 
@@ -230,6 +228,7 @@ class MultiFoldResourceManager implements ResourceManager {
     await file.writeAsString(body);
   }
 
+  @override
   void close() {
     _client.close();
   }

@@ -39,7 +39,7 @@ class MultiFoldLauncher implements Launcher {
     final factory = _components[manifest.id];
     if (factory == null) {
       // TODO: Localized exception??
-      throw new Exception("unknown component '${manifest.id}'");
+      throw Exception("unknown component '${manifest.id}'");
     }
 
     return factory.create(manifest);
@@ -80,6 +80,7 @@ class MultiFoldLauncher implements Launcher {
     _logger.i('Launching ${instance.path}');
     _logger.d('Executing: ${environment.command} ${arguments.join(' ')}');
 
+    // ignore: unused_local_variable
     final process = await Process.start(
       environment.command,
       arguments,
