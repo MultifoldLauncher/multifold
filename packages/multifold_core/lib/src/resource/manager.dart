@@ -23,11 +23,13 @@ import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
+import 'package:logger/logger.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:multifold_api/api.dart';
 
 final RegExp _namespaceRegex = RegExp(r'^[0-9a-zA-Z_-]+$');
+final Logger _logger = getLogger('ResourceManager');
 
 class MultiFoldResourceManager implements ResourceManager {
   final RetryClient _client = RetryClient(http.Client());
@@ -43,6 +45,7 @@ class MultiFoldResourceManager implements ResourceManager {
   @override
   Future<ResourceResult> get(Resource resource, {bool volatile = false}) async {
     assert(_namespaceRegex.hasMatch(resource.namespace));
+    _logger.d('getting resource \"${resource.uri}\" to \"${resource.namespace}\": \"${resource.cacheKey}\"');
 
     final cacheKey = resource.cacheKey ?? _computeCacheKey(resource.uri);
     final path = p.join(this._path, resource.namespace, cacheKey);
@@ -109,6 +112,8 @@ class MultiFoldResourceManager implements ResourceManager {
     String? cacheKey,
     ResourceIntegrity? integrity,
   }) async {
+    _logger.d("fetching \"$uri\" to \"$namespace\": \"$cacheKey\"");
+
     final effectiveCacheKey = cacheKey ?? _computeCacheKey(uri);
     final path = p.join(this._path, namespace, effectiveCacheKey);
 

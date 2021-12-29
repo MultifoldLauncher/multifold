@@ -18,7 +18,10 @@
 
 import 'dart:io';
 
+import 'package:logger/logger.dart';
 import 'package:multifold_api/api.dart';
+
+final Logger _logger = getLogger('Launcher');
 
 class MultiFoldLauncher implements Launcher {
   final Map<String, ComponentFactory> _components = {};
@@ -44,6 +47,7 @@ class MultiFoldLauncher implements Launcher {
 
   @override
   Future<void> launch(Instance instance, SessionData session) async {
+    _logger.i('Launching instance ${instance.path}');
     final components = instance.manifest.spec.components
         .map((e) => createComponent(e))
         .toList();
@@ -59,6 +63,7 @@ class MultiFoldLauncher implements Launcher {
 
     // TODO: Parallel processing
     for (var component in components) {
+      _logger.i('Processing component ${component.name}');
       await component.execute(context);
     }
 
@@ -71,6 +76,9 @@ class MultiFoldLauncher implements Launcher {
       environment.entryPoint,
       ...environment.launchArguments
     ];
+
+    _logger.i('Launching ${instance.path}');
+    _logger.d('Executing: ${environment.command} ${arguments.join(' ')}');
 
     final process = await Process.start(
       environment.command,

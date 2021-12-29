@@ -18,7 +18,10 @@
 
 import 'dart:io';
 
+import 'package:logger/logger.dart';
 import 'package:multifold_api/api.dart';
+
+final Logger _logger = getLogger('MinecraftComponent');
 
 class MinecraftComponent implements Component {
   @override
@@ -32,6 +35,7 @@ class MinecraftComponent implements Component {
   Future<void> execute(LaunchContext context) async {
     final resourceManager = context.installation.resourceManager;
 
+    _logger.i("downloading launcher manifest for version ${_version}");
     final launcherManifest = await _fetch(
       manager: resourceManager,
       uri: "https://launchermeta.mojang.com/mc/game/version_manifest.json",
@@ -49,12 +53,14 @@ class MinecraftComponent implements Component {
 
     final List<ResourceResult> resources = [];
 
+    _logger.i("downloading client jar");
     final clientDownload = manifest["downloads"]["client"];
     final clientResource = _createResource(clientDownload,
         cacheKey: "versions/${_version}/client.jar");
 
     resources.add(await resourceManager.get(clientResource));
 
+    _logger.i("downloading libraries");
     final libraries = manifest["libraries"];
     for (var library in libraries) {
       if (_evaluateRules(library["rules"])) {
@@ -76,6 +82,7 @@ class MinecraftComponent implements Component {
       }
     }
 
+    _logger.i("downloading assets");
     final assetIndex = manifest["assetIndex"];
     final Map<String, dynamic> assetIndexManifest = await _fetch(
       manager: resourceManager,

@@ -16,23 +16,26 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-library multifold_api;
+import 'dart:io';
 
-export 'src/auth/session.dart';
+import 'package:logger/logger.dart';
 
-export 'src/instance/instance.dart';
+class SimpleLogPrinter extends LogPrinter {
+  final String name;
 
-export 'src/launcher/component/component.dart';
-export 'src/launcher/launcher.dart';
-export 'src/launcher/context.dart';
-export 'src/launcher/installation.dart';
+  SimpleLogPrinter(this.name);
 
-export 'src/manifest/instance.dart';
-export 'src/manifest/manifest.dart';
+  @override
+  List<String> log(LogEvent event) {
+    var color = PrettyPrinter.levelColors[event.level] ?? AnsiColor.none();
+    var emoji = PrettyPrinter.levelEmojis[event.level] ?? "";
+    return [color('$emoji $name: ${event.message}')];
+  }
+}
 
-export 'src/resource/manager.dart';
-export 'src/resource/resource.dart';
-
-export 'src/util/constants.dart';
-export 'src/util/fs.dart';
-export 'src/util/logger.dart';
+Logger getLogger(String name) {
+  final String levelName = Platform.environment['LOG_LEVEL'] ?? 'info';
+  Logger.level = Level.values
+      .firstWhere((l) => l.name == levelName, orElse: () => Level.info);
+  return Logger(printer: SimpleLogPrinter(name));
+}
