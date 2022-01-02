@@ -177,6 +177,13 @@ packages:
       relative: true
     source: path
     version: "0.1.0"
+  multifold_native:
+    dependency: "direct overridden"
+    description:
+      path: "../packages/multifold_native"
+      relative: true
+    source: path
+    version: "0.0.1"
   path:
     dependency: transitive
     description:

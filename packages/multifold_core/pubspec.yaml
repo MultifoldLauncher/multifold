@@ -9,6 +9,7 @@ environment:
 dependencies:
   multifold_api: ^0.1.0
   multifold_component_minecraft: ^0.1.0
+  multifold_native: ^0.1.0
   convert: ^3.0.1
   crypto: ^3.0.1
   http: ^0.13.4

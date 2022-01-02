@@ -159,12 +159,7 @@ class MultiFoldResourceManager implements ResourceManager {
       ).then((json) => jsonDecode(json));
 
   Future<bool> _verifyIntegrity(File file, ResourceIntegrity integrity) async {
-    var digest = integrity.sha512;
-    if (digest != null) {
-      return await _checkDigest(file, sha512, digest);
-    }
-
-    digest = integrity.sha256;
+    var digest = integrity.sha256;
     if (digest != null) {
       return await _checkDigest(file, sha256, digest);
     }
