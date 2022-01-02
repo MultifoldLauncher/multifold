@@ -16,8 +16,11 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import 'dart:io';
+
 class Constants {
   static const userAgent = "multifold.app";
+  static final separator = Platform.isWindows ? ";" : ":";
 
   Constants._();
 }

@@ -69,10 +69,8 @@ class MultiFoldLauncher implements Launcher {
 
     await Directory(instance.path).create(recursive: true);
 
-    final separator = Platform.isWindows ? ";" : ":";
     final arguments = [
-      "-cp",
-      environment.classpath.join(separator),
+      ...environment.jvmArguments,
       environment.entryPoint,
       ...environment.launchArguments
     ];

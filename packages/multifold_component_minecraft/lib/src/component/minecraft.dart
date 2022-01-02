@@ -114,24 +114,43 @@ class MinecraftComponent implements Component {
     _logger
         .i('completed in ${DateTime.now().difference(time).inMilliseconds}ms');
 
-    final List<String> gameArguments = [];
-    for (var argument in manifest["arguments"]["game"]) {
+    context.environment.launchArguments = _getArguments(
+        manifest["arguments"]["game"],
+        context: context,
+        assetsIndexName: manifest["assets"]);
+    context.environment.jvmArguments = _getArguments(
+        manifest["arguments"]["jvm"],
+        context: context,
+        assetsIndexName: manifest["assets"]);
+    context.environment.entryPoint = manifest["mainClass"];
+  }
+
+  List<String> _getArguments(List<dynamic> arguments,
+      {required LaunchContext context, required String assetsIndexName}) {
+    final List<String> args = [];
+
+    for (var argument in arguments) {
       if (argument is String) {
-        gameArguments.add(
-          _templateArgument(
-            argument,
-            context: context,
-            assetsIndexName: manifest["assets"],
-          ),
-        );
+        args.add(argument);
+      } else if (argument is Map<String, dynamic>) {
+        if (argument.containsKey("rules")) {
+          if (!_evaluateRules(argument["rules"])) {
+            continue;
+          }
+        }
+
+        final value = argument["value"] is String
+            ? [argument["value"]]
+            : argument["value"];
+
+        args.addAll(value);
       }
-      // TODO: Handle arguments with rules
     }
 
-    // TODO: Handle JVM arguments
-
-    context.environment.launchArguments = gameArguments;
-    context.environment.entryPoint = manifest["mainClass"];
+    return args
+        .map((arg) => _templateArgument(arg,
+            context: context, assetsIndexName: assetsIndexName))
+        .toList();
   }
 
   String _templateArgument(
@@ -145,6 +164,7 @@ class MinecraftComponent implements Component {
 
     final name = argument.substring(2, argument.length - 1);
     switch (name) {
+    // Game
       case "auth_player_name":
         return context.session.username;
       case "version_name":
@@ -162,6 +182,14 @@ class MinecraftComponent implements Component {
         return context.session.accessToken;
       case "version_type":
         return "release"; // TODO
+
+      // Natives
+      case "classpath":
+        return context.environment.classpath.join(Constants.separator);
+      case "launcher_name":
+        return "Multifold";
+      case "launcher_version":
+        return "1.0.0";
     }
 
     return "";
