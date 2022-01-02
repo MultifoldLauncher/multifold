@@ -25,6 +25,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
 import 'package:logger/logger.dart';
 import 'package:multifold_api/api.dart';
+import 'package:multifold_native/multifold_native.dart';
 import 'package:path/path.dart' as p;
 
 final RegExp _namespaceRegex = RegExp(r'^[0-9a-zA-Z_-]+$');
@@ -161,35 +162,63 @@ class MultiFoldResourceManager implements ResourceManager {
   Future<bool> _verifyIntegrity(File file, ResourceIntegrity integrity) async {
     var digest = integrity.sha256;
     if (digest != null) {
-      return await _checkDigest(file, sha256, digest);
+      return await _checkDigest(file, HashType.sha256, digest);
     }
 
     // ignore: deprecated_member_use
     digest = integrity.sha1;
     if (digest != null) {
-      return await _checkDigest(file, sha1, digest);
+      return await _checkDigest(file, HashType.sha1, digest);
     }
 
     // ignore: deprecated_member_use
     digest = integrity.md5;
     if (digest != null) {
-      return await _checkDigest(file, md5, digest);
+      return await _checkDigest(file, HashType.md5, digest);
     }
 
     // No integrity to be checked
     return true;
   }
 
-  Future<bool> _checkDigest(File file, Hash hash, String digest) async {
-    final output = AccumulatorSink<Digest>();
-    final input = hash.startChunkedConversion(output);
+  Future<bool> _checkDigest(File file, HashType type, String digest) async {
+    if (MultifoldNative.isSupported()) {
+      final hashPointer = MultifoldNative.instance.createHash(type);
 
-    await for (final chunk in file.openRead()) {
-      input.add(chunk);
+      if (!MultifoldNative.instance.updateHashFile(hashPointer, file.path)) {
+        throw Exception("error updating hash");
+      }
+
+      final result = MultifoldNative.toHex(
+          MultifoldNative.instance.finishHash(hashPointer));
+      return result.toLowerCase() == digest.toLowerCase();
+    } else {
+      final Hash hash;
+
+      switch (type) {
+        case HashType.sha256:
+          hash = sha256;
+          break;
+        case HashType.sha1:
+          hash = sha1;
+          break;
+        case HashType.md5:
+          hash = md5;
+          break;
+        default:
+          throw Exception("unsupported hash type");
+      }
+
+      final output = AccumulatorSink<Digest>();
+      final input = hash.startChunkedConversion(output);
+
+      await for (final chunk in file.openRead()) {
+        input.add(chunk);
+      }
+
+      input.close();
+      return output.events.single.toString() == digest.toLowerCase();
     }
-    input.close();
-
-    return output.events.single.toString() == digest.toLowerCase();
   }
 
   Future<void> _download(Uri uri, File destination) async {

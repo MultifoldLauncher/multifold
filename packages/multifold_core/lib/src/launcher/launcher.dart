@@ -47,7 +47,6 @@ class MultiFoldLauncher implements Launcher {
 
   @override
   Future<void> launch(Instance instance, SessionData session) async {
-    final time = DateTime.now();
     _logger.i('Launching instance ${instance.path}');
     final components = instance.manifest.spec.components
         .map((e) => createComponent(e))
@@ -80,10 +79,6 @@ class MultiFoldLauncher implements Launcher {
 
     _logger.i('Launching ${instance.path}');
     _logger.d('Executing: ${environment.command} ${arguments.join(' ')}');
-
-    // Print elapsed launch time
-    _logger.i(
-        'Launched instance ${instance.path} in ${DateTime.now().difference(time).inMilliseconds}ms');
 
     // ignore: unused_local_variable
     final process = await Process.start(

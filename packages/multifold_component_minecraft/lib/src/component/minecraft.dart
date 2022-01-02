@@ -53,6 +53,7 @@ class MinecraftComponent implements Component {
 
     final List<ResourceResult> resources = [];
 
+    final time = DateTime.now();
     _logger.i("downloading client jar");
     final clientDownload = manifest["downloads"]["client"];
     final clientResource = _createResource(clientDownload,
@@ -108,6 +109,10 @@ class MinecraftComponent implements Component {
     for (var resource in resources) {
       context.environment.classpath.add(resource.file.path);
     }
+
+    // Print elapsed launch time
+    _logger
+        .i('completed in ${DateTime.now().difference(time).inMilliseconds}ms');
 
     final List<String> gameArguments = [];
     for (var argument in manifest["arguments"]["game"]) {
