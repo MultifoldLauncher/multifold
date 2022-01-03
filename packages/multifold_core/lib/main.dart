@@ -43,7 +43,7 @@ void main() async {
       metadata: InstanceManifestMetadata(name: "test"),
       spec: InstanceManifestSpec(
         components: [
-          ComponentDescriptor(id: "minecraft", version: "1.7.10"),
+          ComponentDescriptor(id: "minecraft", version: "1.6.4"),
         ],
       ),
     ),

@@ -92,16 +92,20 @@ class MinecraftComponent implements Component {
     );
 
     final objectAssets = assetIndexManifest["objects"] as Map<String, dynamic>;
-    for (var obj in objectAssets.values) {
+    final virtual = assetIndexManifest.containsKey("virtual") &&
+        assetIndexManifest["virtual"];
+    for (var key in objectAssets.keys) {
+      final obj = objectAssets[key];
       final hash = obj["hash"] as String;
       final path = "${hash.substring(0, 2)}/$hash";
 
-      // TODO: Support for legacy assets
       final resource = Resource(
         uri: Uri.parse("https://resources.download.minecraft.net/$path"),
         integrity: ResourceIntegrity(sha1: hash),
         namespace: "minecraft",
-        cacheKey: "assets/objects/$path",
+        cacheKey: virtual
+            ? "assets/virtual/${manifest["assets"]}/$key"
+            : "assets/objects/$path",
       );
       await resourceManager.get(resource);
     }
@@ -184,9 +188,12 @@ class MinecraftComponent implements Component {
       "game_directory": context.instance.path,
       "assets_root": context.installation.resourceManager
           .getPath(namespace: "minecraft", cacheKey: "assets"),
+      "game_assets": context.installation.resourceManager
+          .getPath(namespace: "minecraft", cacheKey: "assets/virtual/legacy"),
       "assets_index_name": assetsIndexName,
       "auth_uuid": context.session.id,
       "auth_access_token": context.session.accessToken,
+      "auth_session": context.session.accessToken,
       "version_type": "release", // TODO
       "user_properties": "{}",
       "user_type": "mojang",

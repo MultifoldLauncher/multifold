@@ -27,7 +27,6 @@ abstract class ResourceManager {
   Future<void> init();
 
   /// Retrieve a resource
-  /// TODO: document the parameters
   Future<ResourceResult> get(Resource resource, {bool volatile = false});
 
   String getPath({String namespace = "default", String? cacheKey});
