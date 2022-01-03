@@ -18,6 +18,7 @@
 
 import 'dart:io';
 
+import 'package:archive/archive.dart';
 import 'package:path/path.dart' as p;
 
 String getDataPath() {
@@ -42,5 +43,16 @@ String getDataPath() {
     default:
       final home = Platform.environment["HOME"]!;
       return p.join(home, ".multifold");
+  }
+}
+
+void extractZip(File zip, String dest) {
+  final entries = ZipDecoder().decodeBytes(zip.readAsBytesSync());
+  for (final entry in entries) {
+    final file = File(p.join(dest, entry.name));
+    if (entry.isFile) {
+      file.parent.createSync(recursive: true);
+      file.writeAsBytesSync(entry.content as List<int>);
+    }
   }
 }

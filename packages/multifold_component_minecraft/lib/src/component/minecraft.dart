@@ -63,6 +63,7 @@ class MinecraftComponent implements Component {
 
     _logger.i("downloading libraries");
     final libraries = manifest["libraries"];
+
     for (var library in libraries) {
       if (_evaluateRules(library["rules"])) {
         final artifact = library["downloads"]["artifact"];
@@ -72,9 +73,8 @@ class MinecraftComponent implements Component {
           final classifier = classifiers["natives-${Platform.operatingSystem}"];
           if (classifier != null) {
             final resource = _createResource(classifier);
-            resources.add(await resourceManager.get(resource));
-
-            // TODO: Handle extraction
+            final result = await resourceManager.get(resource);
+            extractZip(result.file, context.environment.nativeLibDir);
           }
         } else if (artifact != null) {
           final resource = _createResource(artifact);
@@ -114,14 +114,29 @@ class MinecraftComponent implements Component {
     _logger
         .i('completed in ${DateTime.now().difference(time).inMilliseconds}ms');
 
-    context.environment.launchArguments = _getArguments(
-        manifest["arguments"]["game"],
-        context: context,
-        assetsIndexName: manifest["assets"]);
-    context.environment.jvmArguments = _getArguments(
-        manifest["arguments"]["jvm"],
-        context: context,
-        assetsIndexName: manifest["assets"]);
+    if (manifest.containsKey("arguments")) {
+      context.environment.launchArguments = _getArguments(
+          manifest["arguments"]["game"],
+          context: context,
+          assetsIndexName: manifest["assets"]);
+      context.environment.jvmArguments = _getArguments(
+          manifest["arguments"]["jvm"],
+          context: context,
+          assetsIndexName: manifest["assets"]);
+    } else {
+      context.environment.jvmArguments = _getArguments([
+        "-Djava.library.path=\${natives_directory}",
+        "-Dminecraft.launcher.brand=\${launcher_name}",
+        "-Dminecraft.launcher.version=\${launcher_version}",
+        "-cp",
+        "\${classpath}",
+      ], context: context, assetsIndexName: manifest["assets"]);
+      context.environment.launchArguments = _getArguments(
+          (manifest["minecraftArguments"] as String).split(" "),
+          context: context,
+          assetsIndexName: manifest["assets"]);
+    }
+
     context.environment.entryPoint = manifest["mainClass"];
   }
 
@@ -158,41 +173,35 @@ class MinecraftComponent implements Component {
     required LaunchContext context,
     required String assetsIndexName,
   }) {
-    if (argument[0] != "\$") {
+    if (!argument.contains("\$")) {
       return argument;
     }
 
-    final name = argument.substring(2, argument.length - 1);
-    switch (name) {
-    // Game
-      case "auth_player_name":
-        return context.session.username;
-      case "version_name":
-        return _version;
-      case "game_directory":
-        return context.instance.path;
-      case "assets_root":
-        return context.installation.resourceManager
-            .getPath(namespace: "minecraft", cacheKey: "assets");
-      case "assets_index_name":
-        return assetsIndexName;
-      case "auth_uuid":
-        return context.session.id;
-      case "auth_access_token":
-        return context.session.accessToken;
-      case "version_type":
-        return "release"; // TODO
+    Map<String, String> variables = {
+      // Game arguments
+      "auth_player_name": context.session.username,
+      "version_name": _version,
+      "game_directory": context.instance.path,
+      "assets_root": context.installation.resourceManager
+          .getPath(namespace: "minecraft", cacheKey: "assets"),
+      "assets_index_name": assetsIndexName,
+      "auth_uuid": context.session.id,
+      "auth_access_token": context.session.accessToken,
+      "version_type": "release", // TODO
+      "user_properties": "{}",
+      "user_type": "mojang",
 
-      // Natives
-      case "classpath":
-        return context.environment.classpath.join(Constants.separator);
-      case "launcher_name":
-        return "Multifold";
-      case "launcher_version":
-        return "1.0.0";
-    }
+      // JVM arguments
+      "classpath": context.environment.classpath.join(Constants.separator),
+      "launcher_name": "Multifold",
+      "launcher_version": "1.0.0",
+      "natives_directory": context.environment.nativeLibDir,
+    };
 
-    return "";
+    return argument.replaceAllMapped(RegExp(r"\${(\w+)}"), (match) {
+      final content = variables[match.group(1)] ?? match.group(0) ?? "";
+      return content.isEmpty ? "\"\"" : content;
+    });
   }
 
   bool _evaluateRules(List<dynamic>? rules) {
@@ -264,7 +273,6 @@ class MinecraftComponentFactory implements ComponentFactory {
   Component create(ComponentDescriptor descriptor) {
     final version = descriptor.version;
     if (version == null) {
-      // TODO: Localized exceptions?
       throw Exception("version must not be null");
     }
 

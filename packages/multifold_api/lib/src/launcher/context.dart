@@ -16,6 +16,8 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import 'dart:io';
+
 import 'package:multifold_api/api.dart';
 
 class LaunchContext {
@@ -51,4 +53,8 @@ class LaunchEnvironment {
 
   /// Additional JVM arguments to pass to the JVM.
   List<String> jvmArguments = [];
+
+  /// Native library directory
+  String nativeLibDir =
+      Directory.systemTemp.createTempSync("multifold-natives-").path;
 }

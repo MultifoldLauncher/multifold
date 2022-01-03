@@ -38,7 +38,6 @@ class MultiFoldLauncher implements Launcher {
   Component createComponent(ComponentDescriptor manifest) {
     final factory = _components[manifest.id];
     if (factory == null) {
-      // TODO: Localized exception??
       throw Exception("unknown component '${manifest.id}'");
     }
 

@@ -9,6 +9,7 @@ environment:
 dependencies:
   path: ^1.8.0
   logger: ^1.1.0
+  archive: ^3.1.8
 
 dev_dependencies:
   flutter_lints: 1.0.4
