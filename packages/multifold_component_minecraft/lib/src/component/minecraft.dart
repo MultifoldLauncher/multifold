@@ -28,6 +28,7 @@ class MinecraftComponent implements Component {
   String get name => "Minecraft";
 
   final String _version;
+  late final Map<String, dynamic> manifest;
 
   MinecraftComponent({required String version}) : _version = version;
 
@@ -45,7 +46,7 @@ class MinecraftComponent implements Component {
     final versions = launcherManifest["versions"] as List<dynamic>;
     final version = versions.firstWhere((version) => version["id"] == _version);
 
-    final Map<String, dynamic> manifest = await _fetch(
+    manifest = await _fetch(
       manager: resourceManager,
       uri: version["url"],
       cacheKey: "versions/$_version/manifest.json",
@@ -92,8 +93,10 @@ class MinecraftComponent implements Component {
     );
 
     final objectAssets = assetIndexManifest["objects"] as Map<String, dynamic>;
-    final virtual = assetIndexManifest.containsKey("virtual") &&
-        assetIndexManifest["virtual"];
+    final virtual = (assetIndexManifest.containsKey("virtual") &&
+            assetIndexManifest["virtual"]) ||
+        (assetIndexManifest.containsKey("map_to_resources") &&
+            assetIndexManifest["map_to_resources"]);
     for (var key in objectAssets.keys) {
       final obj = objectAssets[key];
       final hash = obj["hash"] as String;
@@ -188,8 +191,9 @@ class MinecraftComponent implements Component {
       "game_directory": context.instance.path,
       "assets_root": context.installation.resourceManager
           .getPath(namespace: "minecraft", cacheKey: "assets"),
-      "game_assets": context.installation.resourceManager
-          .getPath(namespace: "minecraft", cacheKey: "assets/virtual/legacy"),
+      "game_assets": context.installation.resourceManager.getPath(
+          namespace: "minecraft",
+          cacheKey: "assets/virtual/${manifest["assets"]}"),
       "assets_index_name": assetsIndexName,
       "auth_uuid": context.session.id,
       "auth_access_token": context.session.accessToken,
