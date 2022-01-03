@@ -37,17 +37,11 @@ void main() async {
   final installation = MultiFoldInstallation.createDefault();
   await installation.init();
 
-  final instance = MultiFoldInstance(
-    path: p.join(getDataPath(), "instances", "test"),
-    manifest: InstanceManifest(
-      metadata: InstanceManifestMetadata(name: "test"),
-      spec: InstanceManifestSpec(
-        components: [
-          ComponentDescriptor(id: "minecraft", version: "1.18.2"),
-        ],
-      ),
-    ),
-  );
+  final instanceManager =
+      MultifoldInstanceManager(p.join(getDataPath(), "instances"));
+  await instanceManager.setup();
 
+  final instance = instanceManager.getInstance("Test");
+  if (instance == null) return;
   await installation.launcher.launch(instance, session);
 }

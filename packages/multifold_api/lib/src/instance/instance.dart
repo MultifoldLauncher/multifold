@@ -20,5 +20,18 @@ import '../manifest/instance.dart';
 
 abstract class Instance {
   String get path;
+
   InstanceManifest get manifest;
+}
+
+abstract class InstanceManager {
+  String get dir;
+
+  List<Instance> get instances;
+
+  Future<void> setup();
+
+  Future<List<Instance>> getInstances();
+
+  Instance? getInstance(String name);
 }

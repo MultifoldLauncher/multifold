@@ -73,13 +73,13 @@ class InstanceManifestSpec {
   });
 
   factory InstanceManifestSpec.from(Map<String, dynamic> data) {
-    final List<Map<String, dynamic>> components = data["components"];
+    final List<dynamic> components = data["components"];
     final mappedComponents = components
         .map(
           (e) => ComponentDescriptor(
-            id: data["id"],
-            version: data["version"],
-            settings: data["settings"],
+            id: e["id"],
+            version: e["version"],
+            settings: e["settings"],
           ),
         )
         .toList();

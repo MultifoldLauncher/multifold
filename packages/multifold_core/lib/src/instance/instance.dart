@@ -16,6 +16,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:multifold_api/api.dart';
 
 class MultiFoldInstance implements Instance {
@@ -29,4 +32,47 @@ class MultiFoldInstance implements Instance {
     required this.path,
     required this.manifest,
   });
+}
+
+class MultifoldInstanceManager extends InstanceManager {
+  @override
+  final String dir;
+
+  @override
+  List<Instance> instances = <Instance>[];
+
+  MultifoldInstanceManager(this.dir);
+
+  @override
+  Future<void> setup() async {
+    instances = await getInstances();
+  }
+
+  @override
+  Future<List<Instance>> getInstances() async {
+    final files = await Directory(dir).list().toList();
+    final instances = <Instance>[];
+
+    for (final instanceDir in files) {
+      final manifestFile = File(instanceDir.path + '/instance.json');
+      if (!await manifestFile.exists()) continue;
+
+      final json = jsonDecode(await manifestFile.readAsString());
+      final manifest = InstanceManifest.from(json);
+      instances
+          .add(MultiFoldInstance(path: instanceDir.path, manifest: manifest));
+    }
+
+    return instances;
+  }
+
+  @override
+  Instance? getInstance(String name) {
+    try {
+      return instances.firstWhere(
+          (i) => i.manifest.metadata.name.toLowerCase() == name.toLowerCase());
+    } catch (e) {
+      return null;
+    }
+  }
 }
